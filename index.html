@@ -2,104 +2,520 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f8f5ef">
-  <title>Mamma Dulce — A sua história, em forma de bolo</title>
-  <meta name="description" content="Confeitaria artística por Jaciara Simões em Aracruz e região. Bolos únicos, sabores autorais e carinho em cada detalhe. Conheça a Mamma Dulce.">
-  <meta property="og:title" content="Mamma Dulce — A sua história, em forma de bolo">
-  <meta property="og:description" content="Confeitaria artística por Jaciara Simões. Aracruz e região.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ec">
+  <title>Mamma Dulce · Confeitaria artística em Aracruz</title>
+  <meta name="description" content="Confeitaria artística por Jaciara Simões em Aracruz e região. Bolos únicos, sabores autorais e carinho em cada detalhe.">
+  <meta property="og:title" content="Mamma Dulce · A sua história, em forma de bolo">
+  <meta property="og:description" content="Confeitaria artística por Jaciara Simões. Aracruz e região, Espírito Santo.">
   <meta property="og:image" content="https://fliparaujor.github.io/mamma-dulce/assets/hero.webp">
   <meta property="og:type" content="website">
-  <link rel="icon" type="image/png" href="assets/brand-transparent.png">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="assets/hero.webp" fetchpriority="high">
-
-
-
-  <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="refinements.css">
-  <link rel="stylesheet" href="components.css?v=3">
-  <script defer src="app.js?v=3"></script>
-  <script defer src="components.js?v=3"></script>
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('motion');
+      try { if (sessionStorage.getItem('md-intro')) d.classList.add('intro-seen'); } catch (e) {}
+      // Se algum script falhar, o conteúdo aparece mesmo assim.
+      setTimeout(function () { if (!d.classList.contains('ready')) { d.classList.remove('motion'); d.classList.add('ready', 'intro-done', 'fallback'); } }, 7000);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/main.css?v=4">
+  <script defer src="assets/vendor/gsap.min.js"></script>
+  <script defer src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script defer src="assets/vendor/SplitText.min.js"></script>
+  <script defer src="assets/vendor/lenis.min.js"></script>
+  <script defer src="js/main.js?v=4"></script>
 </head>
-<body data-site-version="3">
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-mark" viewBox="0 0 1095 850"><path fill="#d9968c" d="M672.5 839.3C670.3 839.2 662.6 838.5 655.5 838C620.3 835.1 573.8 825.3 523.5 810C514.7 807.4 505.9 804.7 504 804.2C502.1 803.7 490.6 800.3 478.5 796.7C352.2 759.2 258.6 747.5 206 762.7C183.3 769.2 167.3 779.7 160.8 792.3C157.8 798.1 157.1 811.5 159.4 819.5C160.4 822.6 160.9 825.5 160.5 825.8C160.2 826.1 158.1 824.6 155.9 822.4C143.6 810.6 142.7 791.4 153.8 777.9C162.1 767.7 173.3 760.2 191.6 752.3C199 749.2 209.2 743.6 218.5 737.5C227.9 731.4 242.6 723.4 258 715.8C271.5 709.2 286.8 701 292 697.5C319.3 679.4 334.5 655.2 343.2 616.4C346.2 602.8 346.5 565 343.6 549.5C341.6 538.7 337.3 522.5 334.1 513.9L332 508.4L322.3 505.7C291.4 497.1 260.4 474.7 242.3 448C233.8 435.5 225.9 420 228 420C228.5 420 232.1 424 236 428.9C251.1 448.1 278.7 471.3 297.5 480.7C307.2 485.6 322 490.8 332.1 492.8C343.4 495.1 343.7 495.4 350 515C366.7 567.3 364.2 619.8 342.9 662.3C330.6 686.7 308.6 707.4 280.5 721C275 723.6 263.4 729.2 254.8 733.3C246.1 737.5 239 741 239 741.2C239 741.4 250.6 741.5 264.8 741.5C291.1 741.5 299.5 742.1 331.5 746.6C374.4 752.6 429.1 765 479.5 780.1C488.9 782.9 499.2 786 502.5 786.9C505.8 787.9 518.2 791.7 530 795.3C633.4 826.7 707.4 832.4 758.2 812.8L766.3 809.7L765.6 758.1C765 709.5 765.1 706.1 766.8 700C771.3 684.5 783.6 666.2 805.9 641.5C812.5 634.2 814 630.8 814 622.7C814 615.1 815.1 611.4 819.7 604C824.9 595.4 825.6 588.9 823.1 574C820.5 558.9 820.4 551.5 822.8 547.3C823.7 545.5 828.5 539.8 833.3 534.5C842 524.9 845 520.6 843.7 519.3C843.3 519 840.2 519.5 836.8 520.6C821.6 525.2 807 522.3 798.6 512.9C792.5 506.1 791.4 501.1 793 487.9C793.7 482.4 794.1 477.7 793.8 477.5C793.6 477.3 791.3 480.3 788.6 484.1C784.1 490.7 777.2 498.9 760.6 517.4C756.7 521.7 747.6 530.4 740.5 536.7C714.1 559.9 710.2 570.9 703 642C697.4 697.3 694.4 717.5 686.4 753.5C684.9 760.2 678.6 783.5 675.6 793L674.2 797.5L669.9 797.2C656.8 796.3 619.5 787.3 602.8 781.1C535.1 755.8 500.5 720.2 486 661C481.6 642.8 480.7 633.5 481.3 611.9C482.2 573.9 490.3 546 505 529.5C519.3 513.5 536.2 506 558.5 506C575.5 506 586.9 509.4 615.5 523C628.8 529.4 634.4 531 643.2 531C651.2 531 654.4 529.9 658.9 525.7C666 519 667.6 509.8 664.5 493.7C660.5 473 665.2 464.1 682.4 459.5C689.9 457.5 689.9 458.3 682.6 445C680 440.4 678.2 436 678.4 435.3C678.8 434.4 680.9 434 684.9 434C693.8 434 700.7 432.2 704.3 429L707.5 426.2L701.7 420.1C692.1 410.1 689.7 401.3 694.1 392.3C696.6 387.1 702.1 382.1 716 372.5C721.8 368.5 727.1 364.5 727.9 363.6C729.5 361.7 730 361.9 718.3 359.7C679 352 655.1 316.5 660 273C661.5 259.4 664.2 250.5 671.6 234.3C675.2 226.5 678.7 217 679.5 213.3C682.4 199.6 680.8 182.6 674.9 166.6C673.3 162.2 672.3 158.4 672.8 158.2C676.8 156.9 687.3 149.4 691.6 144.7C704.5 130.7 702.2 117 683.8 99.5C661.3 78 623.8 60.4 567 44.7C493.2 24.2 409.9 20.2 345.3 34C281.7 47.6 224.9 77.8 184 119.4C180.5 123 177.2 126 176.7 126C176.2 126 172.8 123.4 169.2 120.2C153 106 139 99.5 122 98.4C82.5 95.7 40 135.9 28.2 187.2C25.5 198.9 25.9 231.7 28.8 243.2C34.2 264.9 42 279.2 55.9 293.1C66.9 304.1 77.5 310.1 93 314.2C105.8 317.6 130.6 317.4 144 313.7C163.3 308.5 179.7 300.4 187.2 292.4C199.3 279.4 206.2 254 209.7 210.2C211.4 189.2 211.5 188.9 213.8 188.3C215.3 188 216.5 188.2 217 189.1C219.8 193.5 219.4 240.1 216.5 256C211 286.1 201.5 301.9 180.5 315.6C146.7 337.6 105.5 368 88.5 383.6C66.8 403.5 47.7 429.5 29.4 463.8C27.3 467.9 25.4 470.6 25.2 470C23.6 465.4 39.8 428.5 50.6 411.7C66.2 387.6 92.8 361.5 127.7 336C131.7 333.1 135 330.6 135 330.5C135 330.4 129.2 330.5 122 330.8C107.7 331.3 94.3 330 84.1 326.8C45.6 315 19.7 282 12.3 235.5C10.5 224.2 10.9 196.5 13 187C20.9 150.4 42.4 117.5 70.7 98.8C91.5 84.9 116.3 80.2 137.5 85.8C147.9 88.6 164.1 96.8 170.8 102.6L176 107.2L184.3 99.4C198.9 85.6 209.4 77.8 236.2 60.7C239.4 58.6 248.2 53.9 255.7 50.1C326.6 14.6 401.7 3.9 497 15.6C564 23.9 637.4 47.6 675.5 73.3C689.7 82.9 704.7 98.5 710 109.2C714.1 117.4 714.3 118.4 714.3 126.5C714.3 134.3 714 135.6 710.7 142.3C708.7 146.2 705.3 151.3 703.2 153.6L699.4 157.7L703.2 160.4C713 167.5 717.8 186.8 712.7 199C710.9 203.1 710.6 202.6 706 188.9C702.7 178.8 698.9 173 694.1 170.5L691.3 169.1L692.8 174.3C694.8 181.8 695.6 204.7 694 213.4C692.6 221.6 690.8 226.5 684 241C677.2 255.5 674.9 264.8 674.7 279L674.5 290.5L681 290.2C684.6 290 690 289.3 693 288.5C696 287.7 698.6 287.3 698.9 287.6C700.1 288.8 690.7 296.5 683.9 299.9L676.3 303.6L677.5 307.5C680.3 316.9 689.1 329.8 696.4 335.2C705 341.6 718 346.1 732 347.5C740.2 348.4 744.7 350.4 746.6 354.3C750.5 361.6 744.1 369.8 722 385.8C703.5 399.2 703 401.5 715.6 413.5C724 421.6 724.6 423.6 720.9 431.5C717.7 438.3 707.7 445.9 701.8 446C699.6 446 699.5 445.8 702.5 452.2C707.3 462.4 704.8 467.3 692.8 470.9C688.8 472.1 683.5 474 681.2 475.1L676.8 477.1L677.2 481.8C677.5 484.4 678.5 490.8 679.4 496C682.6 513.1 679.7 524.4 669.6 534.6C661 543.2 655 545.3 641.5 544.8C629.7 544.3 625.6 543 602.6 532.6C580.7 522.7 574.8 520.9 562 520.3C521.2 518.4 499.2 547 495.4 607C493.3 640.9 503.5 679.8 521.9 707.5C540.8 736.1 580.7 760.7 630.9 774.5C648.7 779.4 663.3 782.2 664.1 780.9C665.3 779 671 756.6 674.6 740C680.7 711.8 684.4 685.5 688.5 641C695 571.9 702.8 550 728.5 528.7C737.5 521.3 744.9 513.8 759.1 498C771.7 484 773.2 482.1 780 472.6C787.6 462 791.5 459 797.6 459C803.5 459 807.1 462.2 807.9 468.1L808.5 472.5L819.4 459.8C825.4 452.8 831.8 444.8 833.7 442.1L837.2 437.1L836 430.2C834.2 419.2 837.8 410.7 846.3 406.3C849.3 404.8 849.4 404.8 851.4 407.6C852.6 409.2 854.6 411.6 855.9 412.9C857.2 414.3 857.9 415.5 857.4 415.7C856.9 415.9 855 416.9 853.2 418C850.3 419.8 850 420.4 850 424.7C850.1 430.5 854.8 444.9 857.2 446.4C859.9 448.1 882.1 442.9 887.6 439.3C889.5 438.1 889.7 437.5 888.9 435C887.4 430.8 880.8 429.2 873.4 431.2C870.4 432.1 867.7 432.4 867.5 431.9C867 431.2 865.3 423.8 864.7 420C864.6 419.2 863 414.9 861.3 410.5C856.6 398.6 855.7 392.2 856.3 375.8C856.9 356.2 860.7 343.7 872.7 321C890.3 287.8 915.5 256.7 944.1 232.7L949.7 228L948.9 223.7C948.5 221.4 946.7 216.2 945.1 212.1C943.4 208 942 204.4 942 204.1C942 202.6 952.2 195.8 953.1 196.7C954.4 198 961 214.2 961 216.2C961 219.4 962.8 219 970.7 214.2C1000.6 195.7 1031.8 190.2 1051.2 200.1C1061.5 205.4 1070.5 217.6 1073.1 229.8C1074.9 238.6 1073.7 259.5 1070.7 270.7L1068.3 279.8L1073.7 285.2C1082.2 293.6 1084.5 299.3 1084.5 312C1084.4 328.3 1079.3 340.1 1064.4 358.6C1031.7 399.2 962.9 433 912.8 433L904 433L904 436.6C904 446.2 896 452.5 878.5 456.9C874.6 457.9 874.2 458.4 865 474.7C859.8 483.9 853.8 494 851.8 497.2C847.6 503.6 847.2 505 849.5 505C852.5 505 857.2 510.4 858 514.8C859.7 524.3 853.9 535.1 840.8 546.9L834.8 552.3L835.3 558.9C835.5 562.5 836.5 570 837.5 575.5C840.2 590.6 837.9 602.6 830 614C828.8 615.7 828.1 619.4 827.7 625.6C827 637.2 826 639.4 816.1 651C795.7 675 786.1 689 781.9 701C779.2 708.8 779.2 709.4 780.4 771.6L781.3 817.6L772.3 822.3C747.5 835.1 706.4 842.1 672.5 839.3ZM829.5 504.6C832.4 501.3 839.4 490.2 851 470.5L856.9 460.5L852.2 460C847.9 459.5 847.4 459.2 845.6 455.5L843.8 451.6L841.6 454.1C819.6 480.7 813.2 488.6 810.8 492.1C806.6 498.4 807.1 503 812.4 505.7C820.5 509.9 825.1 509.6 829.5 504.6ZM913.2 419.6C927.3 414.9 933.7 412.1 943.6 406.5C984.5 382.9 1022.1 343 1043.1 300.5C1046.3 294 1049 288.1 1049 287.4C1049 286.2 1041.2 284.4 1032.1 283.6C1029.2 283.3 1026.5 282.9 1026.3 282.6C1026 282.3 1026.7 279.5 1027.8 276.3L1029.7 270.5L1035.3 270.8C1038.4 270.9 1043.9 271.6 1047.5 272.4C1055.3 274 1054.9 274.4 1057.6 262.5C1060 251.9 1060.1 236.4 1057.8 228.9C1049.6 202.5 1013 202.5 972.2 228.8C966.3 232.7 965 233.9 965.5 235.6C966.4 239.7 968 260.7 968 270.1L968 279.7L977.8 276.9C987 274.2 1012.9 269.6 1013.8 270.5C1014.1 270.7 1013.1 273.7 1011.7 277.2L1009.2 283.5L996.2 286.1C989.1 287.6 979.6 290 975.2 291.4L967.2 294.1L966 302.8C962.2 330.4 951.7 364.8 942.1 381.1C939 386.4 921.8 399.6 911 405L906.5 407.2L910.2 403.4C922.2 390.7 935.1 366.7 942.8 343C947.6 328.3 953.3 301 951.6 301C949.7 301 930.1 311.7 921 317.7C899.8 331.8 880.6 349.9 874 362C870.7 368.2 870.5 369 870.2 380.7C869.7 394.6 871.5 402.6 877 411.2C883.2 421.1 898.3 424.5 913.2 419.6ZM987.5 399.5C1028.2 379.7 1060.3 349.6 1068.5 323.8C1071.4 314.7 1071.6 311.2 1069.5 304.4C1068.1 299.9 1063.6 292.8 1062.8 294C1062.6 294.3 1060.6 298.5 1058.2 303.3C1050.5 319.3 1037.9 338.9 1025.2 355C1013.6 369.6 986.6 394.8 971.8 404.9C969.1 406.6 967 408.3 967 408.5C967 409.2 973.8 406.2 987.5 399.5ZM838.3 371.5C831.6 343.9 832.8 306.1 841.5 272.2C853.5 224.9 875.8 188.1 899.4 176.4C908.9 171.8 920.3 170.5 928.5 173.3C933.6 175.1 944.2 181.8 943.8 183.1C943.6 183.5 941.1 185.7 938.1 187.9L932.8 191.9L929.6 189.5C913.4 177.3 890.5 193.1 872.4 229.2C859.8 254.2 852.9 278.7 849 311.5C848 320.3 845.9 332.9 844.5 339.5C842.8 347.4 841.6 356.5 841.2 366L840.5 380.5L838.3 371.5ZM888.6 324.9C896.8 316.2 921.8 300.2 942.8 290.3L954 284.9L954 269.2C954 260.6 953.7 251.1 953.4 248.3L952.7 243L945.9 249.1C922.7 269.7 904.2 292.8 886.7 323.2C883.5 328.7 884.3 329.4 888.6 324.9Z"/><path fill="#7f8873" d="M890.8 420.5C884.9 418.9 880.2 416.2 878.2 413.2L876.8 411L885.6 411C891.9 410.9 896.1 410.4 900 408.9C903 407.9 906.2 406.8 907.2 406.6C909.8 405.9 915 403.1 921.5 398.7C954.5 376.6 988.3 332.6 1007.4 287C1008.5 284.5 1010.2 280.5 1011.3 278C1013.8 272 1019.6 249.3 1021.1 239.1C1021.7 234.5 1022 225.9 1021.8 219.9L1021.3 208.9L1028.9 209.2L1036.5 209.5L1036.8 222.7C1037.1 239.2 1034.8 254.4 1029.1 272.1C1009.7 332.8 963.2 394.5 920.2 416.4C908.9 422.2 900.9 423.3 890.8 420.5ZM858.9 415.8C839.6 397.9 836.2 375.2 846.1 331.5C861.5 263.6 922.9 184.4 973.1 167.6C998.2 159.2 1018.8 166.7 1029.7 188.2L1032.9 194.5L1025.2 195.2C1018.8 195.8 1017.3 195.6 1016.5 194.3C1009.1 182.6 1003.9 179.5 992 179.5C984.5 179.6 982.4 180 974.5 183.3C931.4 201.1 880.4 266.7 863.5 326.3C857.6 346.9 856 357.5 856 376.1C856 394.2 857.3 401.9 862.4 413.4C866.1 421.8 865.7 422.1 858.9 415.8Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M7 5h12v12" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M3 12h18m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M21 12H3m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 40 40"><path d="M20 2c1.2 9.6 8.4 16.8 18 18-9.6 1.2-16.8 8.4-18 18-1.2-9.6-8.4-16.8-18-18C11.6 18.8 18.8 11.6 20 2Z" fill="currentColor"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/></g></symbol>
+</svg>
+
 <a class="skip-link" href="#principal">Pular para o conteúdo</a>
+
+<!-- Abertura: a logo se desenha sozinha -->
+<div class="preloader" aria-hidden="true">
+  <div class="preloader-layer preloader-layer--rose"></div>
+  <div class="preloader-panel">
+    <svg class="preloader-logo" viewBox="0 0 1095 850">
+      <path class="pl-rose" d="M672.5 839.3C670.3 839.2 662.6 838.5 655.5 838C620.3 835.1 573.8 825.3 523.5 810C514.7 807.4 505.9 804.7 504 804.2C502.1 803.7 490.6 800.3 478.5 796.7C352.2 759.2 258.6 747.5 206 762.7C183.3 769.2 167.3 779.7 160.8 792.3C157.8 798.1 157.1 811.5 159.4 819.5C160.4 822.6 160.9 825.5 160.5 825.8C160.2 826.1 158.1 824.6 155.9 822.4C143.6 810.6 142.7 791.4 153.8 777.9C162.1 767.7 173.3 760.2 191.6 752.3C199 749.2 209.2 743.6 218.5 737.5C227.9 731.4 242.6 723.4 258 715.8C271.5 709.2 286.8 701 292 697.5C319.3 679.4 334.5 655.2 343.2 616.4C346.2 602.8 346.5 565 343.6 549.5C341.6 538.7 337.3 522.5 334.1 513.9L332 508.4L322.3 505.7C291.4 497.1 260.4 474.7 242.3 448C233.8 435.5 225.9 420 228 420C228.5 420 232.1 424 236 428.9C251.1 448.1 278.7 471.3 297.5 480.7C307.2 485.6 322 490.8 332.1 492.8C343.4 495.1 343.7 495.4 350 515C366.7 567.3 364.2 619.8 342.9 662.3C330.6 686.7 308.6 707.4 280.5 721C275 723.6 263.4 729.2 254.8 733.3C246.1 737.5 239 741 239 741.2C239 741.4 250.6 741.5 264.8 741.5C291.1 741.5 299.5 742.1 331.5 746.6C374.4 752.6 429.1 765 479.5 780.1C488.9 782.9 499.2 786 502.5 786.9C505.8 787.9 518.2 791.7 530 795.3C633.4 826.7 707.4 832.4 758.2 812.8L766.3 809.7L765.6 758.1C765 709.5 765.1 706.1 766.8 700C771.3 684.5 783.6 666.2 805.9 641.5C812.5 634.2 814 630.8 814 622.7C814 615.1 815.1 611.4 819.7 604C824.9 595.4 825.6 588.9 823.1 574C820.5 558.9 820.4 551.5 822.8 547.3C823.7 545.5 828.5 539.8 833.3 534.5C842 524.9 845 520.6 843.7 519.3C843.3 519 840.2 519.5 836.8 520.6C821.6 525.2 807 522.3 798.6 512.9C792.5 506.1 791.4 501.1 793 487.9C793.7 482.4 794.1 477.7 793.8 477.5C793.6 477.3 791.3 480.3 788.6 484.1C784.1 490.7 777.2 498.9 760.6 517.4C756.7 521.7 747.6 530.4 740.5 536.7C714.1 559.9 710.2 570.9 703 642C697.4 697.3 694.4 717.5 686.4 753.5C684.9 760.2 678.6 783.5 675.6 793L674.2 797.5L669.9 797.2C656.8 796.3 619.5 787.3 602.8 781.1C535.1 755.8 500.5 720.2 486 661C481.6 642.8 480.7 633.5 481.3 611.9C482.2 573.9 490.3 546 505 529.5C519.3 513.5 536.2 506 558.5 506C575.5 506 586.9 509.4 615.5 523C628.8 529.4 634.4 531 643.2 531C651.2 531 654.4 529.9 658.9 525.7C666 519 667.6 509.8 664.5 493.7C660.5 473 665.2 464.1 682.4 459.5C689.9 457.5 689.9 458.3 682.6 445C680 440.4 678.2 436 678.4 435.3C678.8 434.4 680.9 434 684.9 434C693.8 434 700.7 432.2 704.3 429L707.5 426.2L701.7 420.1C692.1 410.1 689.7 401.3 694.1 392.3C696.6 387.1 702.1 382.1 716 372.5C721.8 368.5 727.1 364.5 727.9 363.6C729.5 361.7 730 361.9 718.3 359.7C679 352 655.1 316.5 660 273C661.5 259.4 664.2 250.5 671.6 234.3C675.2 226.5 678.7 217 679.5 213.3C682.4 199.6 680.8 182.6 674.9 166.6C673.3 162.2 672.3 158.4 672.8 158.2C676.8 156.9 687.3 149.4 691.6 144.7C704.5 130.7 702.2 117 683.8 99.5C661.3 78 623.8 60.4 567 44.7C493.2 24.2 409.9 20.2 345.3 34C281.7 47.6 224.9 77.8 184 119.4C180.5 123 177.2 126 176.7 126C176.2 126 172.8 123.4 169.2 120.2C153 106 139 99.5 122 98.4C82.5 95.7 40 135.9 28.2 187.2C25.5 198.9 25.9 231.7 28.8 243.2C34.2 264.9 42 279.2 55.9 293.1C66.9 304.1 77.5 310.1 93 314.2C105.8 317.6 130.6 317.4 144 313.7C163.3 308.5 179.7 300.4 187.2 292.4C199.3 279.4 206.2 254 209.7 210.2C211.4 189.2 211.5 188.9 213.8 188.3C215.3 188 216.5 188.2 217 189.1C219.8 193.5 219.4 240.1 216.5 256C211 286.1 201.5 301.9 180.5 315.6C146.7 337.6 105.5 368 88.5 383.6C66.8 403.5 47.7 429.5 29.4 463.8C27.3 467.9 25.4 470.6 25.2 470C23.6 465.4 39.8 428.5 50.6 411.7C66.2 387.6 92.8 361.5 127.7 336C131.7 333.1 135 330.6 135 330.5C135 330.4 129.2 330.5 122 330.8C107.7 331.3 94.3 330 84.1 326.8C45.6 315 19.7 282 12.3 235.5C10.5 224.2 10.9 196.5 13 187C20.9 150.4 42.4 117.5 70.7 98.8C91.5 84.9 116.3 80.2 137.5 85.8C147.9 88.6 164.1 96.8 170.8 102.6L176 107.2L184.3 99.4C198.9 85.6 209.4 77.8 236.2 60.7C239.4 58.6 248.2 53.9 255.7 50.1C326.6 14.6 401.7 3.9 497 15.6C564 23.9 637.4 47.6 675.5 73.3C689.7 82.9 704.7 98.5 710 109.2C714.1 117.4 714.3 118.4 714.3 126.5C714.3 134.3 714 135.6 710.7 142.3C708.7 146.2 705.3 151.3 703.2 153.6L699.4 157.7L703.2 160.4C713 167.5 717.8 186.8 712.7 199C710.9 203.1 710.6 202.6 706 188.9C702.7 178.8 698.9 173 694.1 170.5L691.3 169.1L692.8 174.3C694.8 181.8 695.6 204.7 694 213.4C692.6 221.6 690.8 226.5 684 241C677.2 255.5 674.9 264.8 674.7 279L674.5 290.5L681 290.2C684.6 290 690 289.3 693 288.5C696 287.7 698.6 287.3 698.9 287.6C700.1 288.8 690.7 296.5 683.9 299.9L676.3 303.6L677.5 307.5C680.3 316.9 689.1 329.8 696.4 335.2C705 341.6 718 346.1 732 347.5C740.2 348.4 744.7 350.4 746.6 354.3C750.5 361.6 744.1 369.8 722 385.8C703.5 399.2 703 401.5 715.6 413.5C724 421.6 724.6 423.6 720.9 431.5C717.7 438.3 707.7 445.9 701.8 446C699.6 446 699.5 445.8 702.5 452.2C707.3 462.4 704.8 467.3 692.8 470.9C688.8 472.1 683.5 474 681.2 475.1L676.8 477.1L677.2 481.8C677.5 484.4 678.5 490.8 679.4 496C682.6 513.1 679.7 524.4 669.6 534.6C661 543.2 655 545.3 641.5 544.8C629.7 544.3 625.6 543 602.6 532.6C580.7 522.7 574.8 520.9 562 520.3C521.2 518.4 499.2 547 495.4 607C493.3 640.9 503.5 679.8 521.9 707.5C540.8 736.1 580.7 760.7 630.9 774.5C648.7 779.4 663.3 782.2 664.1 780.9C665.3 779 671 756.6 674.6 740C680.7 711.8 684.4 685.5 688.5 641C695 571.9 702.8 550 728.5 528.7C737.5 521.3 744.9 513.8 759.1 498C771.7 484 773.2 482.1 780 472.6C787.6 462 791.5 459 797.6 459C803.5 459 807.1 462.2 807.9 468.1L808.5 472.5L819.4 459.8C825.4 452.8 831.8 444.8 833.7 442.1L837.2 437.1L836 430.2C834.2 419.2 837.8 410.7 846.3 406.3C849.3 404.8 849.4 404.8 851.4 407.6C852.6 409.2 854.6 411.6 855.9 412.9C857.2 414.3 857.9 415.5 857.4 415.7C856.9 415.9 855 416.9 853.2 418C850.3 419.8 850 420.4 850 424.7C850.1 430.5 854.8 444.9 857.2 446.4C859.9 448.1 882.1 442.9 887.6 439.3C889.5 438.1 889.7 437.5 888.9 435C887.4 430.8 880.8 429.2 873.4 431.2C870.4 432.1 867.7 432.4 867.5 431.9C867 431.2 865.3 423.8 864.7 420C864.6 419.2 863 414.9 861.3 410.5C856.6 398.6 855.7 392.2 856.3 375.8C856.9 356.2 860.7 343.7 872.7 321C890.3 287.8 915.5 256.7 944.1 232.7L949.7 228L948.9 223.7C948.5 221.4 946.7 216.2 945.1 212.1C943.4 208 942 204.4 942 204.1C942 202.6 952.2 195.8 953.1 196.7C954.4 198 961 214.2 961 216.2C961 219.4 962.8 219 970.7 214.2C1000.6 195.7 1031.8 190.2 1051.2 200.1C1061.5 205.4 1070.5 217.6 1073.1 229.8C1074.9 238.6 1073.7 259.5 1070.7 270.7L1068.3 279.8L1073.7 285.2C1082.2 293.6 1084.5 299.3 1084.5 312C1084.4 328.3 1079.3 340.1 1064.4 358.6C1031.7 399.2 962.9 433 912.8 433L904 433L904 436.6C904 446.2 896 452.5 878.5 456.9C874.6 457.9 874.2 458.4 865 474.7C859.8 483.9 853.8 494 851.8 497.2C847.6 503.6 847.2 505 849.5 505C852.5 505 857.2 510.4 858 514.8C859.7 524.3 853.9 535.1 840.8 546.9L834.8 552.3L835.3 558.9C835.5 562.5 836.5 570 837.5 575.5C840.2 590.6 837.9 602.6 830 614C828.8 615.7 828.1 619.4 827.7 625.6C827 637.2 826 639.4 816.1 651C795.7 675 786.1 689 781.9 701C779.2 708.8 779.2 709.4 780.4 771.6L781.3 817.6L772.3 822.3C747.5 835.1 706.4 842.1 672.5 839.3ZM829.5 504.6C832.4 501.3 839.4 490.2 851 470.5L856.9 460.5L852.2 460C847.9 459.5 847.4 459.2 845.6 455.5L843.8 451.6L841.6 454.1C819.6 480.7 813.2 488.6 810.8 492.1C806.6 498.4 807.1 503 812.4 505.7C820.5 509.9 825.1 509.6 829.5 504.6ZM913.2 419.6C927.3 414.9 933.7 412.1 943.6 406.5C984.5 382.9 1022.1 343 1043.1 300.5C1046.3 294 1049 288.1 1049 287.4C1049 286.2 1041.2 284.4 1032.1 283.6C1029.2 283.3 1026.5 282.9 1026.3 282.6C1026 282.3 1026.7 279.5 1027.8 276.3L1029.7 270.5L1035.3 270.8C1038.4 270.9 1043.9 271.6 1047.5 272.4C1055.3 274 1054.9 274.4 1057.6 262.5C1060 251.9 1060.1 236.4 1057.8 228.9C1049.6 202.5 1013 202.5 972.2 228.8C966.3 232.7 965 233.9 965.5 235.6C966.4 239.7 968 260.7 968 270.1L968 279.7L977.8 276.9C987 274.2 1012.9 269.6 1013.8 270.5C1014.1 270.7 1013.1 273.7 1011.7 277.2L1009.2 283.5L996.2 286.1C989.1 287.6 979.6 290 975.2 291.4L967.2 294.1L966 302.8C962.2 330.4 951.7 364.8 942.1 381.1C939 386.4 921.8 399.6 911 405L906.5 407.2L910.2 403.4C922.2 390.7 935.1 366.7 942.8 343C947.6 328.3 953.3 301 951.6 301C949.7 301 930.1 311.7 921 317.7C899.8 331.8 880.6 349.9 874 362C870.7 368.2 870.5 369 870.2 380.7C869.7 394.6 871.5 402.6 877 411.2C883.2 421.1 898.3 424.5 913.2 419.6ZM987.5 399.5C1028.2 379.7 1060.3 349.6 1068.5 323.8C1071.4 314.7 1071.6 311.2 1069.5 304.4C1068.1 299.9 1063.6 292.8 1062.8 294C1062.6 294.3 1060.6 298.5 1058.2 303.3C1050.5 319.3 1037.9 338.9 1025.2 355C1013.6 369.6 986.6 394.8 971.8 404.9C969.1 406.6 967 408.3 967 408.5C967 409.2 973.8 406.2 987.5 399.5ZM838.3 371.5C831.6 343.9 832.8 306.1 841.5 272.2C853.5 224.9 875.8 188.1 899.4 176.4C908.9 171.8 920.3 170.5 928.5 173.3C933.6 175.1 944.2 181.8 943.8 183.1C943.6 183.5 941.1 185.7 938.1 187.9L932.8 191.9L929.6 189.5C913.4 177.3 890.5 193.1 872.4 229.2C859.8 254.2 852.9 278.7 849 311.5C848 320.3 845.9 332.9 844.5 339.5C842.8 347.4 841.6 356.5 841.2 366L840.5 380.5L838.3 371.5ZM888.6 324.9C896.8 316.2 921.8 300.2 942.8 290.3L954 284.9L954 269.2C954 260.6 953.7 251.1 953.4 248.3L952.7 243L945.9 249.1C922.7 269.7 904.2 292.8 886.7 323.2C883.5 328.7 884.3 329.4 888.6 324.9Z"/>
+      <path class="pl-sage" d="M890.8 420.5C884.9 418.9 880.2 416.2 878.2 413.2L876.8 411L885.6 411C891.9 410.9 896.1 410.4 900 408.9C903 407.9 906.2 406.8 907.2 406.6C909.8 405.9 915 403.1 921.5 398.7C954.5 376.6 988.3 332.6 1007.4 287C1008.5 284.5 1010.2 280.5 1011.3 278C1013.8 272 1019.6 249.3 1021.1 239.1C1021.7 234.5 1022 225.9 1021.8 219.9L1021.3 208.9L1028.9 209.2L1036.5 209.5L1036.8 222.7C1037.1 239.2 1034.8 254.4 1029.1 272.1C1009.7 332.8 963.2 394.5 920.2 416.4C908.9 422.2 900.9 423.3 890.8 420.5ZM858.9 415.8C839.6 397.9 836.2 375.2 846.1 331.5C861.5 263.6 922.9 184.4 973.1 167.6C998.2 159.2 1018.8 166.7 1029.7 188.2L1032.9 194.5L1025.2 195.2C1018.8 195.8 1017.3 195.6 1016.5 194.3C1009.1 182.6 1003.9 179.5 992 179.5C984.5 179.6 982.4 180 974.5 183.3C931.4 201.1 880.4 266.7 863.5 326.3C857.6 346.9 856 357.5 856 376.1C856 394.2 857.3 401.9 862.4 413.4C866.1 421.8 865.7 422.1 858.9 415.8Z"/>
+    </svg>
+    <p class="preloader-word"><span>Mamma</span> <span>Dulce</span></p>
+    <p class="preloader-sub">Confeitaria artística</p>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span class="cursor-label">Ver</span></div>
+
 <header class="header" id="header">
-  <a href="#inicio" class="brand" aria-label="Mamma Dulce — início">
-    <img src="assets/brand-transparent.png" alt="" width="64" height="64">
-    <span class="wordmark">Mamma Dulce<small>CONFEITARIA ARTÍSTICA</small></span>
+  <a href="#inicio" class="brand" aria-label="Mamma Dulce, voltar ao início">
+    <svg class="brand-mark" aria-hidden="true"><use href="#logo-mark"/></svg>
+    <span class="brand-word">Mamma Dulce<small>Confeitaria artística</small></span>
   </a>
-  <nav class="desktop-nav" aria-label="Navegação principal">
-    <a href="#criacao">Criações</a><a href="#essencia">Nossa essência</a><a href="#sabores">Sabores</a><a href="#galeria">Galeria</a>
+  <nav class="nav" aria-label="Navegação principal">
+    <span class="nav-indicator" aria-hidden="true"></span>
+    <a href="#criacoes">Criações</a>
+    <a href="#essencia">Essência</a>
+    <a href="#sabores">Sabores</a>
+    <a href="#processo">Processo</a>
+    <a href="#galeria">Galeria</a>
   </nav>
-  <a class="header-cta" href="#encomendas">Vamos celebrar? <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></a>
-  <button class="menu-toggle" aria-label="Abrir menu" aria-controls="mobile-nav" aria-expanded="false"><span></span><span></span></button>
-  <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação no celular" hidden>
-    <a href="#criacao">Criações</a><a href="#essencia">Nossa essência</a><a href="#sabores">Sabores</a><a href="#galeria">Galeria</a><a href="#encomendas">Vamos celebrar? <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></a>
-  </nav>
-  <div class="reading-progress" aria-hidden="true"></div>
+  <a class="btn btn--pill header-cta" href="#encomendas" data-magnetic>
+    <span class="btn-fill" aria-hidden="true"></span>
+    <span class="btn-text"><span class="btn-roll" data-text="Encomendar">Encomendar</span></span>
+    <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+  </a>
+  <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+  <div class="header-progress" aria-hidden="true"><span></span></div>
 </header>
+
+<!-- Menu do celular em camadas -->
+<div class="menu" id="menu" aria-hidden="true" inert>
+  <div class="menu-layer menu-layer--rose"></div>
+  <div class="menu-layer menu-layer--sage"></div>
+  <div class="menu-panel">
+    <nav class="menu-links" aria-label="Navegação no celular">
+      <a href="#criacoes"><small>01</small><span>Criações</span></a>
+      <a href="#essencia"><small>02</small><span>Essência</span></a>
+      <a href="#sabores"><small>03</small><span>Sabores</span></a>
+      <a href="#processo"><small>04</small><span>Processo</span></a>
+      <a href="#galeria"><small>05</small><span>Galeria</span></a>
+      <a href="#encomendas"><small>06</small><span>Encomendar</span></a>
+    </nav>
+    <div class="menu-foot">
+      <p>Aracruz e região · ES</p>
+      <a href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">@mamma.dulce</a>
+    </div>
+  </div>
+</div>
+
 <main id="principal">
+
+  <!-- 00 · Abertura -->
   <section class="hero" id="inicio" aria-labelledby="hero-title">
-    <div class="hero-copy">
-      <p class="eyebrow hero-enter">POR JACIARA SIMÕES · ARACRUZ, ES</p>
-      <h1 id="hero-title" class="hero-enter">A sua história,<br>em forma <br>de <em>bolo.</em><span class="title-flower" aria-hidden="true"><svg viewBox="0 0 50 50" width="45" height="45" fill="none"><path d="M25 2v46M2 25h46M9 9l32 32M9 41 41 9" stroke="currentColor" stroke-width="1.5"/></svg></span></h1>
-      <p class="hero-description hero-enter">Para os grandes dias. Para os pequenos motivos.<br>Bolos artísticos, sabores autorais e carinho<br class="desktop-break"> em cada detalhe.</p>
-      <a class="button button-sage hero-enter" href="#criacao">Encontre a sua inspiração <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></a>
-      <a href="#criacao" class="scroll-hint hero-enter">Explore nossas criações <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6" stroke="currentColor" stroke-width="1.2"/></svg></a>
+    <div class="hero-pin">
+      <div class="hero-copy">
+        <p class="eyebrow hero-eyebrow"><span class="dot" aria-hidden="true"></span>Por Jaciara Simões · Aracruz, ES</p>
+        <h1 class="hero-title" id="hero-title">A sua história,<br>em forma de <em>bolo.</em></h1>
+        <p class="hero-lead">Para os grandes dias. Para os pequenos motivos. Bolos artísticos, sabores autorais e carinho em cada detalhe.</p>
+        <div class="hero-actions">
+          <a class="btn btn--solid" href="#criacoes" data-magnetic>
+            <span class="btn-fill" aria-hidden="true"></span>
+            <span class="btn-text"><span class="btn-roll" data-text="Encontre a sua inspiração">Encontre a sua inspiração</span></span>
+            <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="link-line" href="#encomendas">Fazer uma encomenda</a>
+        </div>
+      </div>
+      <div class="hero-slot" aria-hidden="true"></div>
+      <figure class="hero-media">
+        <img src="assets/hero.webp" srcset="assets/hero-sm.webp 820w, assets/hero.webp 1425w" sizes="(max-width: 800px) 100vw, 60vw" alt="Bolo branco artesanal com rosas vermelhas e joaninhas de chocolate" width="1425" height="1900" fetchpriority="high">
+        <span class="hero-scrim" aria-hidden="true"></span>
+        <figcaption class="hero-overlay">
+          <span class="eyebrow">Flores e joaninhas, inspiradas em um vestidinho</span>
+          <span class="hero-overlay-title">Os detalhes da sua história <em>viram criação.</em></span>
+        </figcaption>
+      </figure>
+      <div class="hero-badge" aria-hidden="true">
+        <svg class="badge-ring" viewBox="0 0 200 200">
+          <defs><path id="badge-circle" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+          <text><textPath href="#badge-circle" textLength="486">Confeitaria artística · Aracruz · Espírito Santo · </textPath></text>
+        </svg>
+        <svg class="badge-mark"><use href="#logo-mark"/></svg>
+      </div>
+      <a class="scroll-cue" href="#manifesto" aria-label="Rolar para o conteúdo">
+        <span>Role</span><i aria-hidden="true"></i>
+      </a>
     </div>
-    <div class="hero-visual hero-enter">
-      <div class="hero-photo-frame"><div class="hero-outline" aria-hidden="true"></div><div class="hero-photo" data-photo><img src="assets/hero.webp" alt="Bolo branco artesanal com flores vermelhas e joaninhas, criado para celebrar quatro meses" width="1425" height="1900" fetchpriority="high"></div></div>
-      <p class="photo-note">Flores e joaninhas, inspiradas em um vestidinho.<br><em>Os detalhes da sua história viram criação.</em></p>
-    </div>
-    <span class="hero-side-note" aria-hidden="true">ARTE QUE ENCANTA. SABOR QUE FICA.</span>
   </section>
 
-  <div class="ribbon" aria-hidden="true"><div class="ribbon-track"><span>Feito para celebrar</span><i>✧︎</i><span>Pensado com carinho</span><i>✧︎</i><span>Único como você</span><i>✧︎</i><span>Feito para celebrar</span><i>✧︎</i><span>Pensado com carinho</span><i>✧︎</i><span>Único como você</span><i>✧︎</i></div></div>
+  <!-- Manifesto: texto que acende conforme a rolagem -->
+  <section class="manifesto" id="manifesto" aria-label="Nosso jeito">
+    <p class="eyebrow manifesto-eyebrow" data-reveal>O seu dia é o nosso ponto de partida</p>
+    <p class="manifesto-text" data-scroll-text>
+      Cada celebração tem seu jeito<span class="pill-img" aria-hidden="true"><img src="assets/floral-sm.webp" alt="" loading="lazy" width="820" height="1025"></span>
+      e o bolo também deve ter. Seu momento, suas referências<span class="pill-img" aria-hidden="true"><img src="assets/pink-bow-sm.webp" alt="" loading="lazy" width="820" height="1093"></span>
+      os detalhes que contam a sua história. É por aí que a conversa começa<span class="pill-img pill-img--round" aria-hidden="true"><img src="assets/portrait-sm.webp" alt="" loading="lazy" width="820" height="1093"></span>
+    </p>
+  </section>
 
-  <section class="creations section-pad" id="criacao" aria-labelledby="creations-title">
-    <div class="section-heading reveal"><div><p class="eyebrow">01 / NOSSAS CRIAÇÕES</p><h2 id="creations-title">Um doce jeito<br>de <em>ser inesquecível.</em></h2></div><p>Cada celebração tem seu jeito.<br>O bolo também deve ter.<br>Conheça um pouco do que criamos por aqui.</p></div>
-    <div class="collection-tabs reveal" role="group" aria-label="Filtrar criações">
-      <button data-filter="all" aria-pressed="true">Um pouco de tudo <span>06</span></button><button data-filter="celebrar" aria-pressed="false">Para celebrar</button><button data-filter="casamentos" aria-pressed="false">Casamentos</button><button data-filter="presentear" aria-pressed="false">Para presentear</button>
+  <!-- Faixa em curva -->
+  <div class="curved" aria-hidden="true">
+    <svg class="curved-svg" viewBox="0 0 1440 160" preserveAspectRatio="xMidYMid meet">
+      <path id="curved-path" d="M-120 70 C 240 150, 480 150, 720 90 S 1200 10, 1560 90" fill="none"/>
+      <text class="curved-text"><textPath href="#curved-path" startOffset="0"><tspan>Feito para celebrar ✦ Pensado com carinho ✦ Único como você ✦ </tspan></textPath></text>
+    </svg>
+  </div>
+
+  <!-- 01 · Criações -->
+  <section class="creations" id="criacoes" aria-labelledby="creations-title">
+    <div class="creations-pin">
+      <div class="section-head creations-head">
+        <div>
+          <p class="eyebrow" data-reveal><span class="num">01</span> Nossas criações</p>
+          <h2 id="creations-title" data-split>Um doce jeito<br>de ser <em>inesquecível.</em></h2>
+        </div>
+        <p class="section-intro" data-reveal>Cada celebração tem seu jeito. O bolo também deve ter. Conheça um pouco do que criamos por aqui.</p>
+      </div>
+      <div class="rail" id="creations-rail" tabindex="0" role="region" aria-label="Criações. Role ou deslize para os lados.">
+        <div class="rail-track">
+          <article class="card card--tall">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/floral.webp" data-caption="Flores para celebrar">
+              <img src="assets/floral-sm.webp" srcset="assets/floral-sm.webp 820w, assets/floral.webp 1440w" sizes="(max-width: 800px) 78vw, 32vw" alt="Bolo com flores de açúcar em tons de rosa, lavanda e branco, com o número 11" loading="lazy" width="1440" height="1801">
+            </button>
+            <div class="card-cap"><span class="eyebrow">Delicadeza em cada pétala</span><h3>Flores para celebrar</h3><span class="card-no">01</span></div>
+          </article>
+          <article class="card card--low">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/wedding.webp" data-caption="O grande sim">
+              <img src="assets/wedding-sm.webp" srcset="assets/wedding-sm.webp 820w, assets/wedding.webp 1440w" sizes="(max-width: 800px) 78vw, 28vw" alt="Bolo de casamento branco com flores e borboletas de açúcar em uma mesa decorada" loading="lazy" width="1440" height="1798">
+            </button>
+            <div class="card-cap"><span class="eyebrow">Para o começo de uma história</span><h3>O grande sim</h3><span class="card-no">02</span></div>
+          </article>
+          <article class="card card--wide">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/gift.webp" data-caption="Um presente, um afeto">
+              <img src="assets/gift-sm.webp" srcset="assets/gift-sm.webp 820w, assets/gift.webp 1425w" sizes="(max-width: 800px) 78vw, 36vw" alt="Ovos de Páscoa embrulhados em tecido listrado com laços e tags delicadas" loading="lazy" width="1425" height="1900">
+            </button>
+            <div class="card-cap"><span class="eyebrow">Carinho que vem embrulhado</span><h3>Um presente, um afeto</h3><span class="card-no">03</span></div>
+          </article>
+          <article class="card card--tall">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/pink-bow.webp" data-caption="Encanto em forma de laço">
+              <img src="assets/pink-bow-sm.webp" srcset="assets/pink-bow-sm.webp 820w, assets/pink-bow.webp 1425w" sizes="(max-width: 800px) 78vw, 32vw" alt="Bolo rosa decorado com um grande laço texturizado" loading="lazy" width="1425" height="1900">
+            </button>
+            <div class="card-cap"><span class="eyebrow">Do seu jeitinho</span><h3>Encanto em forma de laço</h3><span class="card-no">04</span></div>
+          </article>
+          <article class="card card--low">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/botanical.webp" data-caption="Um jardim de motivos">
+              <img src="assets/botanical-sm.webp" srcset="assets/botanical-sm.webp 820w, assets/botanical.webp 1425w" sizes="(max-width: 800px) 78vw, 28vw" alt="Bolo branco com flores coloridas pintadas à mão e pérolas douradas" loading="lazy" width="1425" height="1900">
+            </button>
+            <div class="card-cap"><span class="eyebrow">A vida merece ser celebrada</span><h3>Um jardim de motivos</h3><span class="card-no">05</span></div>
+          </article>
+          <article class="card card--wide">
+            <button class="card-media" type="button" data-lightbox="criacoes" data-cursor="Ver" data-full="assets/easter.webp" data-caption="Pequenas descobertas">
+              <img src="assets/easter-sm.webp" srcset="assets/easter-sm.webp 820w, assets/easter.webp 1425w" sizes="(max-width: 800px) 78vw, 36vw" alt="Seleção de pequenos ovos de chocolate recheados em uma travessa" loading="lazy" width="1425" height="1900">
+            </button>
+            <div class="card-cap"><span class="eyebrow">Sabores para compartilhar</span><h3>Pequenas descobertas</h3><span class="card-no">06</span></div>
+          </article>
+          <article class="card card--end">
+            <p class="eyebrow">E a próxima?</p>
+            <p class="card-end-title">A próxima criação pode ser <em>a sua.</em></p>
+            <a class="btn btn--solid" href="#encomendas" data-magnetic>
+              <span class="btn-fill" aria-hidden="true"></span>
+              <span class="btn-text"><span class="btn-roll" data-text="Vamos conversar">Vamos conversar</span></span>
+              <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+      <div class="rail-foot">
+        <span class="rail-hint">Role para descobrir <svg aria-hidden="true"><use href="#i-right"/></svg></span>
+        <div class="rail-bar" aria-hidden="true"><span></span></div>
+        <div class="rail-arrows">
+          <button type="button" class="round-btn" data-rail="prev" aria-label="Criação anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+          <button type="button" class="round-btn" data-rail="next" aria-label="Próxima criação"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
     </div>
-    <div class="creations-grid photo-rail" id="creations-grid" role="region" aria-label="Galeria de criações. Deslize para os lados ou use as setas." tabindex="0">
-      <article class="creation reveal" data-category="celebrar"><button class="creation-image" data-photo data-gallery="floral" aria-label="Ampliar bolo com flores de arroz"><img src="assets/floral.webp" alt="Bolo com flores de arroz em tons de rosa, lavanda e branco" loading="lazy" width="1440" height="1801"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">DELICADEZA EM CADA PÉTALA</span><h3>Flores para celebrar</h3></div><span class="caption-no">01</span></div></article>
-      <article class="creation reveal" data-category="casamentos"><button class="creation-image" data-photo data-gallery="wedding" aria-label="Ampliar bolo de casamento"><img src="assets/wedding.webp" alt="Bolo de casamento branco com detalhes florais em uma mesa decorada" loading="lazy" width="1440" height="1798"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">PARA O COMEÇO DE UMA HISTÓRIA</span><h3>O grande sim</h3></div><span class="caption-no">02</span></div></article>
-      <article class="creation reveal" data-category="presentear"><button class="creation-image" data-photo data-gallery="gift" aria-label="Ampliar ovos de Páscoa embrulhados em tecido"><img src="assets/gift.webp" alt="Ovos de Páscoa com embalagens de tecido listrado e laços delicados" loading="lazy" width="1440" height="1920"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">CARINHO QUE VEM EMBRULHADO</span><h3>Um presente, um afeto</h3></div><span class="caption-no">03</span></div></article>
-      <article class="creation reveal" data-category="celebrar"><button class="creation-image" data-photo data-gallery="pink-bow" aria-label="Ampliar bolo rosa com laço"><img src="assets/pink-bow.webp" alt="Bolo rosa decorado com um grande laço e detalhes em pérolas" loading="lazy" width="1440" height="1920"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">DO SEU JEITINHO</span><h3>Encanto em forma de laço</h3></div><span class="caption-no">04</span></div></article>
-      <article class="creation reveal" data-category="celebrar"><button class="creation-image" data-photo data-gallery="botanical" aria-label="Ampliar bolo com flores pintadas"><img src="assets/botanical.webp" alt="Bolo branco com flores coloridas pintadas à mão" loading="lazy" width="1440" height="1920"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">A VIDA MERECE SER CELEBRADA</span><h3>Um jardim de motivos</h3></div><span class="caption-no">05</span></div></article>
-      <article class="creation reveal" data-category="presentear"><button class="creation-image" data-photo data-gallery="easter" aria-label="Ampliar seleção de Páscoa"><img src="assets/easter.webp" alt="Seleção de pequenos ovos de chocolate recheados em uma travessa rosa" loading="lazy" width="1440" height="1920"><span class="image-action" aria-hidden="true">Ver de pertinho <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><div class="creation-caption"><div><span class="eyebrow">SABORES PARA COMPARTILHAR</span><h3>Pequenas descobertas</h3></div><span class="caption-no">06</span></div></article>
+  </section>
+
+  <!-- 02 · Essência -->
+  <section class="essence" id="essencia" aria-labelledby="essence-title">
+    <div class="essence-media">
+      <div class="essence-portrait" data-clip>
+        <img src="assets/portrait.webp" srcset="assets/portrait-sm.webp 820w, assets/portrait.webp 1425w" sizes="(max-width: 800px) 85vw, 40vw" alt="Jaciara Simões sorrindo, com ovos de Páscoa embrulhados nas mãos" loading="lazy" width="1425" height="1900" data-parallax="12">
+      </div>
+      <div class="essence-inset" data-clip data-speed="-0.12">
+        <img src="assets/atelier-sm.webp" alt="Jaciara arrumando os presentes de Páscoa no ateliê" loading="lazy" width="820" height="1093">
+      </div>
+      <p class="signature" aria-hidden="true"><span>Com carinho,</span> <span>Jaci.</span></p>
     </div>
-    <div class="rail-footer"><span class="rail-hint">ARRASTE PARA DESCOBRIR <svg viewBox="0 0 32 12" fill="none" aria-hidden="true"><path d="M1 6h29m-5-5 5 5-5 5" stroke="currentColor"/></svg></span><div class="rail-progress" aria-hidden="true"><span></span></div><span class="rail-count" data-rail-count>01 / 06</span><div class="rail-controls"><button data-rail-prev="creations-grid" aria-label="Criação anterior" aria-controls="creations-grid"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6" stroke="currentColor" stroke-width="1.25"/></svg></button><button data-rail-next="creations-grid" aria-label="Próxima criação" aria-controls="creations-grid"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.25"/></svg></button></div></div>
-    <p class="collection-note reveal">Um pedacinho das nossas criações. Coleções sazonais e disponibilidade, sob consulta.</p>
+    <div class="essence-copy">
+      <p class="eyebrow" data-reveal><span class="num">02</span> A alma da Mamma Dulce</p>
+      <h2 id="essence-title" data-split>Mãos que criam.<br>Um coração que<br><em>se entrega.</em></h2>
+      <p data-reveal>Por trás de cada criação está a Jaciara. O olhar atento às texturas, o cuidado para encontrar o equilíbrio dos sabores e a vontade de fazer um bolo que pertença à sua história.</p>
+      <p data-reveal>A Mamma Dulce cresce com fé no propósito, gratidão por quem caminha junto e amor por receber cada pessoa no ateliê. Da família à equipe, tem muita gente e muito afeto em tudo que chega à sua mesa.</p>
+      <blockquote data-reveal>
+        <p>“Cada bolo carrega um pedacinho do meu coração.”</p>
+        <cite>Jaciara Simões · confeiteira e criadora</cite>
+      </blockquote>
+      <a class="link-line" href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer" data-reveal>Acompanhe o dia a dia no Instagram</a>
+    </div>
   </section>
 
-  <section class="essence section-pad" id="essencia" aria-labelledby="essence-title">
-    <div class="essence-photos reveal"><div class="portrait-frame" data-photo><img src="assets/portrait.webp" alt="Jaciara Simões sorrindo com criações da Mamma Dulce nas mãos" width="1425" height="1900" loading="lazy"></div><div class="atelier-inset" data-photo><img src="assets/atelier.webp" alt="Jaciara preparando os presentes de Páscoa no ateliê" width="1440" height="1920" loading="lazy"></div><span class="handwritten">Com carinho, Jaci.</span></div>
-    <div class="essence-copy reveal"><p class="eyebrow">02 / A ALMA DA MAMMA DULCE</p><h2 id="essence-title">Mãos que criam.<br>Um coração<br>que <em>se entrega.</em></h2><p>Por trás de cada criação está a Jaciara. O olhar atento às texturas, o cuidado para encontrar o equilíbrio dos sabores e a vontade de fazer um bolo que pertença à sua história.</p><p>A Mamma Dulce cresce com fé no propósito, gratidão por quem caminha junto e amor por receber cada pessoa no ateliê. Da família à equipe, tem muita gente e muito afeto em tudo que chega à sua mesa.</p><blockquote>“Cada bolo carrega um pedacinho do meu coração.”<cite>JACIARA SIMÕES · CONFEITEIRA E CRIADORA</cite></blockquote><a class="text-link" href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">Conheça mais do nosso dia a dia <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></a></div>
+  <!-- 03 · Sabores -->
+  <section class="flavors" id="sabores" aria-labelledby="flavors-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow" data-reveal><span class="num">03</span> Por dentro da doçura</p>
+        <h2 id="flavors-title" data-split>Bonito de ver.<br>Difícil de <em>esquecer.</em></h2>
+      </div>
+      <p class="section-intro" data-reveal>Massas amanteigadas, recheios cremosos e encontros de texturas. O encanto continua na primeira colherada.</p>
+    </div>
+
+    <ul class="flavor-list" role="list">
+      <li class="flavor" data-img="assets/caramelia.webp" data-reveal>
+        <h3 class="flavor-head">
+          <button type="button" class="flavor-btn" aria-expanded="false" aria-controls="flavor-1">
+            <span class="flavor-no">01</span>
+            <span class="flavor-name">Caramélia <small>Autoria da casa</small></span>
+            <span class="flavor-notes">Cacau · caramelo flor de sal · avelã</span>
+            <span class="flavor-plus" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="flavor-panel" id="flavor-1" role="region" hidden>
+          <div class="flavor-panel-inner">
+            <img src="assets/caramelia.webp" alt="Cartão do sabor Caramélia com a fatia em camadas de chocolate, caramelo e avelã" loading="lazy" width="945" height="945">
+            <p>Massa de chocolate, recheio de chocolate com caramelo flor de sal e recheio de avelã com crocante de avelã. Uma criação autoral da Jaciara, repensada camada por camada até encontrar o equilíbrio que ela imaginava.</p>
+          </div>
+        </div>
+      </li>
+      <li class="flavor" data-img="assets/franoa.webp" data-reveal>
+        <h3 class="flavor-head">
+          <button type="button" class="flavor-btn" aria-expanded="false" aria-controls="flavor-2">
+            <span class="flavor-no">02</span>
+            <span class="flavor-name">Franoá</span>
+            <span class="flavor-notes">Cacau · baunilha · framboesa</span>
+            <span class="flavor-plus" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="flavor-panel" id="flavor-2" role="region" hidden>
+          <div class="flavor-panel-inner">
+            <img src="assets/franoa.webp" alt="Cartão do sabor Franoá com a fatia de cacau, baunilha e framboesa" loading="lazy" width="945" height="945">
+            <p>Massa de cacau com recheio de cacau, recheio de baunilha e redução de framboesa. Cremoso, intenso e com o frescor das frutas.</p>
+          </div>
+        </div>
+      </li>
+      <li class="flavor" data-img="assets/lotus-sm.webp" data-reveal>
+        <h3 class="flavor-head">
+          <button type="button" class="flavor-btn" aria-expanded="false" aria-controls="flavor-3">
+            <span class="flavor-no">03</span>
+            <span class="flavor-name">Lotus</span>
+            <span class="flavor-notes">Baunilha · Biscoff · biscoito</span>
+            <span class="flavor-plus" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="flavor-panel" id="flavor-3" role="region" hidden>
+          <div class="flavor-panel-inner">
+            <img src="assets/lotus-sm.webp" alt="Cascas de chocolate recheadas com creme de Biscoff e um biscoito Lotus no topo" loading="lazy" width="820" height="1093">
+            <p>No festival de fatias, a massa de baunilha encontra o creme de Biscoff, os pedacinhos de biscoito e mais uma camada desse creme irresistível.</p>
+          </div>
+        </div>
+      </li>
+      <li class="flavor" data-img="assets/pistache-menu.webp" data-reveal>
+        <h3 class="flavor-head">
+          <button type="button" class="flavor-btn" aria-expanded="false" aria-controls="flavor-4">
+            <span class="flavor-no">04</span>
+            <span class="flavor-name">Pistache</span>
+            <span class="flavor-notes">Pistache · limão · frutas vermelhas</span>
+            <span class="flavor-plus" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="flavor-panel" id="flavor-4" role="region" hidden>
+          <div class="flavor-panel-inner">
+            <img src="assets/pistache-menu.webp" alt="Cartão do sabor Pistache com a fatia em camadas de baunilha, limão e pistache" loading="lazy" width="945" height="945">
+            <p>Massa de baunilha, recheio de limão e recheio de pistache com redução de frutas vermelhas. Camadas que equilibram delicadeza e personalidade.</p>
+          </div>
+        </div>
+      </li>
+      <li class="flavor" data-img="assets/morango-menu.webp" data-reveal>
+        <h3 class="flavor-head">
+          <button type="button" class="flavor-btn" aria-expanded="false" aria-controls="flavor-5">
+            <span class="flavor-no">05</span>
+            <span class="flavor-name">Torta de Morango</span>
+            <span class="flavor-notes">Baunilha · creme · morangos frescos</span>
+            <span class="flavor-plus" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="flavor-panel" id="flavor-5" role="region" hidden>
+          <div class="flavor-panel-inner">
+            <img src="assets/morango-menu.webp" alt="Cartão da Torta de Morango com a fatia de baunilha, creme e morangos" loading="lazy" width="945" height="945">
+            <p>Massa amanteigada de baunilha com creme de baunilha e morangos frescos fatiados. Leve, fresca e cheia de memória afetiva.</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="flavor-float" aria-hidden="true"><div class="flavor-float-inner"></div></div>
+
+    <div class="flavors-foot" data-reveal>
+      <p>Sabores das nossas criações e festivais. Consulte o menu disponível para a sua data e conte sobre restrições alimentares no atendimento.</p>
+      <a class="link-line" href="https://wa.me/5527997236993?text=Ol%C3%A1%2C%20Jaci!%20Quero%20conhecer%20o%20menu%20de%20sabores%20da%20Mamma%20Dulce." target="_blank" rel="noopener noreferrer">Me conta mais sobre os sabores</a>
+    </div>
   </section>
 
-  <section class="flavors section-pad" id="sabores" aria-labelledby="flavors-title">
-    <div class="section-heading reveal"><div><p class="eyebrow">03 / POR DENTRO DA DOÇURA</p><h2 id="flavors-title">Bonito de ver.<br>Difícil de <em>esquecer.</em></h2></div><p>Massas amanteigadas, recheios cremosos<br>e encontros de texturas.<br>O encanto continua na primeira colherada.</p></div>
-    <div class="flavors-layout"><div class="flavor-photo reveal" data-photo><img src="assets/slices.webp" id="flavor-image" alt="Fatias da Mamma Dulce mostrando camadas de bolo e recheios" width="1425" height="1900" loading="lazy"><span class="flavor-photo-label">CADA CAMADA, UMA DESCOBERTA.</span></div><div class="flavor-list reveal">
-      <details class="flavor" open data-image="slices" data-alt="Seleção de fatias da Mamma Dulce com recheios em camadas"><summary><span class="flavor-index">01</span><h3>Caramélia <small>AUTORIA DA CASA</small></h3><span class="plus" aria-hidden="true"></span></summary><div class="flavor-content"><p>O nosso encontro de chocolate, caramelo flor de sal e crocante de avelã. Uma criação autoral da Jaciara, repensada camada por camada até encontrar o equilíbrio que ela imaginava.</p><span>CACAU · CARAMELO FLOR DE SAL · AVELÃ</span></div></details>
-      <details class="flavor" data-image="franoa" data-alt="Composição do sabor Franoá: cacau, baunilha e frutas vermelhas"><summary><span class="flavor-index">02</span><h3>Franoá</h3><span class="plus" aria-hidden="true"></span></summary><div class="flavor-content"><p>Massa de cacau com recheio de cacau, recheio de baunilha e redução de framboesa. Cremoso, intenso e com o frescor das frutas.</p><span>CACAU · BAUNILHA · FRAMBOESA</span></div></details>
-      <details class="flavor" data-image="lotus" data-alt="Chocolate recheado do sabor Lotus com biscoito"><summary><span class="flavor-index">03</span><h3>Lotus</h3><span class="plus" aria-hidden="true"></span></summary><div class="flavor-content"><p>No festival de fatias, a massa de baunilha encontra o creme de Biscoff, os pedacinhos de biscoito e mais uma camada desse creme irresistível.</p><span>BAUNILHA · BISCOFF · CREME DE BISCOITO</span></div></details>
-      <details class="flavor" data-image="pistache-menu" data-alt="Composição do bolo Pistache com limão e frutas vermelhas"><summary><span class="flavor-index">04</span><h3>Pistache</h3><span class="plus" aria-hidden="true"></span></summary><div class="flavor-content"><p>Massa de baunilha, recheio de limão e recheio de pistache com redução de frutas vermelhas. Camadas que equilibram delicadeza e personalidade.</p><span>PISTACHE · LIMÃO · FRUTAS VERMELHAS</span></div></details>
-      <p class="flavor-note">Sabores das nossas criações e festivais. Consulte o menu disponível para sua data e informe restrições alimentares no atendimento.</p>
-      <a class="text-link" href="https://wa.me/5527997236993?text=Ol%C3%A1%2C%20Jaci!%20Quero%20conhecer%20o%20menu%20de%20sabores%20da%20Mamma%20Dulce." target="_blank" rel="noopener noreferrer">Me conta mais sobre os sabores <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></a>
-    </div></div>
+  <!-- 04 · Processo: cartões empilhados -->
+  <section class="process" id="processo" aria-labelledby="process-title">
+    <div class="section-head process-head">
+      <div>
+        <p class="eyebrow" data-reveal><span class="num">04</span> Como criamos o seu momento</p>
+        <h2 id="process-title" data-split>Cada história merece<br>um <em>cuidado só seu.</em></h2>
+      </div>
+    </div>
+    <div class="stack">
+      <article class="stack-card stack-card--cream">
+        <div class="stack-text">
+          <span class="stack-no">01</span>
+          <p class="eyebrow">Escutar</p>
+          <h3>O que faz sentido pra você?</h3>
+          <p>Seu momento, suas referências, os detalhes que contam a sua história. É por aí que a conversa começa.</p>
+        </div>
+        <div class="stack-img"><img src="assets/atelier-sm.webp" alt="Jaciara no ateliê, cuidando de cada detalhe" loading="lazy" width="820" height="1093"></div>
+      </article>
+      <article class="stack-card stack-card--blush">
+        <div class="stack-text">
+          <span class="stack-no">02</span>
+          <p class="eyebrow">Imaginar</p>
+          <h3>Cada detalhe conversa.</h3>
+          <p>Flores, cores, texturas e sabores em harmonia com a ocasião. Um projeto pensado com identidade.</p>
+        </div>
+        <div class="stack-img"><img src="assets/botanical-sm.webp" alt="Bolo com flores pintadas à mão em cores vivas" loading="lazy" width="820" height="1093"></div>
+      </article>
+      <article class="stack-card stack-card--sage">
+        <div class="stack-text">
+          <span class="stack-no">03</span>
+          <p class="eyebrow">Celebrar</p>
+          <h3>Um pedacinho desse dia.</h3>
+          <p>Na mesa, na primeira fatia ou na lembrança que vai pra casa. Um carinho que continua depois da festa.</p>
+        </div>
+        <div class="stack-img"><img src="assets/slices-sm.webp" alt="Festival de fatias com bolos em camadas e girassóis ao fundo" loading="lazy" width="820" height="1093"></div>
+      </article>
+    </div>
   </section>
 
-  <section class="moment section-pad" aria-labelledby="moment-title"><p class="eyebrow reveal">O SEU DIA É O NOSSO PONTO DE PARTIDA</p><h2 class="reveal" id="moment-title">Cada história merece<br>um <em>cuidado só seu.</em></h2><div class="moment-grid"><div class="reveal"><span>01 — ESCUTAR</span><h3>O que faz sentido pra você?</h3><p>Seu momento, suas referências, os detalhes que contam a sua história. É por aí que a conversa começa.</p></div><div class="reveal"><span>02 — IMAGINAR</span><h3>Cada detalhe conversa.</h3><p>Flores, cores, texturas e sabores em harmonia com a ocasião. Um projeto pensado com identidade.</p></div><div class="reveal"><span>03 — CELEBRAR</span><h3>Um pedacinho desse dia.</h3><p>Na mesa, na primeira fatia ou na lembrança que vai pra casa. Um carinho que continua depois da festa.</p></div></div></section>
+  <!-- 05 · Galeria -->
+  <section class="gallery" id="galeria" aria-labelledby="gallery-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow" data-reveal><span class="num">05</span> Um olhar de pertinho</p>
+        <h2 id="gallery-title" data-split>Os detalhes<br>contam <em>histórias.</em></h2>
+      </div>
+      <a class="link-line" href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer" data-reveal>Mais no Instagram</a>
+    </div>
+    <div class="masonry">
+      <div class="masonry-col" data-col-speed="0,-70">
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/flowers.webp" data-caption="Flores, delicadeza e afeto"><img src="assets/flowers-sm.webp" alt="Bolo branco com flores naturais coloridas, à noite" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/chocolate.webp" data-caption="Aquela colherada…"><img src="assets/chocolate-sm.webp" alt="Calda de caramelo escorrendo sobre cascas de chocolate recheadas" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/lotus.webp" data-caption="Crocante por fora, cremoso por dentro"><img src="assets/lotus-sm.webp" alt="Cascas de chocolate recheadas empilhadas com biscoito Lotus" loading="lazy" width="820" height="1093"></button>
+      </div>
+      <div class="masonry-col" data-col-speed="50,-110">
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/pistache.webp" data-caption="Texturas que surpreendem"><img src="assets/pistache-sm.webp" alt="Corte de chocolate com creme de pistache e frutas vermelhas" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/hero.webp" data-caption="Inspiração que vira memória"><img src="assets/hero-sm.webp" alt="Bolo branco com rosas vermelhas e joaninhas" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/gift.webp" data-caption="Embrulhado com carinho"><img src="assets/gift-sm.webp" alt="Ovos de Páscoa embrulhados em tecido listrado" loading="lazy" width="820" height="1093"></button>
+      </div>
+      <div class="masonry-col" data-col-speed="0,-150">
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/chocolate-fruit.webp" data-caption="Frutas, chocolate e cuidado"><img src="assets/chocolate-fruit-sm.webp" alt="Meio ovo de chocolate com morangos e mirtilos sobre um prato" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/slices.webp" data-caption="Festival de fatias"><img src="assets/slices-sm.webp" alt="Fatias de bolo em camadas com plaquinhas dos sabores" loading="lazy" width="820" height="1093"></button>
+        <button type="button" class="tile" data-lightbox="galeria" data-cursor="Ver" data-full="assets/pink-bow.webp" data-caption="Laço, textura e cor"><img src="assets/pink-bow-sm.webp" alt="Bolo rosa com grande laço texturizado" loading="lazy" width="820" height="1093"></button>
+      </div>
+    </div>
+  </section>
 
-  <section class="gallery section-pad" id="galeria" aria-labelledby="gallery-title"><div class="section-heading reveal"><div><p class="eyebrow">04 / UM OLHAR DE PERTINHO</p><h2 id="gallery-title">Os detalhes<br>contam <em>histórias.</em></h2></div><a class="text-link" href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">Mais no Instagram <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></a></div><div class="gallery-grid photo-rail" id="gallery-grid" role="region" aria-label="Galeria de detalhes. Deslize para os lados ou use as setas." tabindex="0"><button class="gallery-item reveal" data-photo data-gallery="flowers" aria-label="Ampliar bolo com flores naturais"><img src="assets/flowers.webp" alt="Bolo branco com flores naturais coloridas" width="1425" height="1900" loading="lazy"><span>Flores, delicadeza e afeto <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><button class="gallery-item reveal" data-photo data-gallery="pistache" aria-label="Ampliar recheio de pistache e frutas vermelhas"><img src="assets/pistache.webp" alt="Corte de chocolate com creme de pistache e frutas vermelhas" width="1200" height="1600" loading="lazy"><span>Texturas que surpreendem <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><button class="gallery-item reveal" data-photo data-gallery="chocolate" aria-label="Ampliar chocolate com calda"><img src="assets/chocolate.webp" alt="Calda de chocolate sendo servida sobre cascas de chocolate recheadas" width="1440" height="1920" loading="lazy"><span>Aquela colherada… <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><button class="gallery-item reveal" data-photo data-gallery="hero" aria-label="Ampliar bolo com flores e joaninhas"><img src="assets/hero.webp" alt="Detalhes das flores e joaninhas no bolo inspirado em um vestidinho" width="1425" height="1900" loading="lazy"><span>Inspiração que vira memória <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button></div><div class="rail-footer"><span class="rail-hint">CADA DETALHE, UM ENCANTO</span><div class="rail-progress" aria-hidden="true"><span></span></div><span class="rail-count" data-rail-count>01 / 04</span><div class="rail-controls"><button data-rail-prev="gallery-grid" aria-label="Detalhe anterior" aria-controls="gallery-grid"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6" stroke="currentColor" stroke-width="1.25"/></svg></button><button data-rail-next="gallery-grid" aria-label="Próximo detalhe" aria-controls="gallery-grid"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.25"/></svg></button></div></div></section>
-
-  <section class="order section-pad" id="encomendas" aria-labelledby="order-title"><div class="order-top reveal"><p class="eyebrow">05 / VAMOS CRIAR ALGO SEU?</p><span>ARACRUZ E REGIÃO · ESPÍRITO SANTO</span></div><div class="order-main"><h2 id="order-title" class="reveal">Qual história<br>vamos <em>adoçar?</em></h2><div class="order-copy reveal"><p>Um casamento, mais um ano de vida,<br>um presente ou um encontro especial.<br>Me conta o que você está imaginando.<br>Vai ser um prazer fazer parte.</p><button class="button button-cream" data-open-order>Converse com a Jaci <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><span class="order-small">PELO WHATSAPP · COM CARINHO, DO COMEÇO AO FIM.</span></div></div><div class="order-bottom reveal"><span>Seu momento. Nossa dedicação.</span><a href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">@mamma.dulce <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></a></div></section>
+  <!-- 06 · Encomendas -->
+  <section class="order" id="encomendas" aria-labelledby="order-title">
+    <div class="order-trail" aria-hidden="true"></div>
+    <div class="order-top">
+      <p class="eyebrow"><span class="num">06</span> Vamos criar algo seu?</p>
+      <p class="eyebrow">Aracruz e região · Espírito Santo</p>
+    </div>
+    <h2 class="order-title" id="order-title" data-split="chars">Qual história<br>vamos <em>adoçar?</em></h2>
+    <div class="order-bottom">
+      <p data-reveal>Um casamento, mais um ano de vida, um presente ou um encontro especial. Me conta o que você está imaginando. Vai ser um prazer fazer parte.</p>
+      <div class="order-actions" data-reveal>
+        <button type="button" class="btn btn--cream btn--lg" data-open-order data-magnetic>
+          <span class="btn-fill" aria-hidden="true"></span>
+          <svg class="btn-icon btn-icon--lead" aria-hidden="true"><use href="#i-wa"/></svg>
+          <span class="btn-text"><span class="btn-roll" data-text="Converse com a Jaci">Converse com a Jaci</span></span>
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <a class="link-line link-line--light" href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">@mamma.dulce</a>
+      </div>
+    </div>
+  </section>
 </main>
-<footer class="footer"><a class="brand" href="#inicio"><img src="assets/brand-transparent.png" alt="" width="64" height="64"><span class="wordmark">Mamma Dulce<small>CONFEITARIA ARTÍSTICA</small></span></a><p>Fé no propósito. Afeto em cada criação.<br>© <span id="year">2026</span> Mamma Dulce.</p><a class="back-top" href="#inicio">Voltar ao início <span aria-hidden="true">↑︎</span></a></footer>
 
-<dialog class="lightbox" aria-labelledby="lightbox-caption"><button class="dialog-close" data-close-lightbox aria-label="Fechar imagem">×</button><button class="lightbox-prev" aria-label="Imagem anterior">←︎</button><figure><img id="lightbox-image" src="assets/hero.webp" alt=""><figcaption id="lightbox-caption"></figcaption></figure><button class="lightbox-next" aria-label="Próxima imagem">→︎</button><span class="lightbox-count" aria-live="polite"></span></dialog>
-<dialog class="order-dialog" aria-labelledby="order-dialog-title"><button class="dialog-close" data-close-order aria-label="Fechar conversa">×</button><p class="eyebrow">QUE BOM TER VOCÊ POR AQUI.</p><h2 id="order-dialog-title">Vamos pensar<br>no seu <em>momento?</em></h2><p>Conte um pouquinho e continue a conversa com a Jaci no WhatsApp.</p><form id="order-form"><label for="occasion">O que vamos celebrar?</label><select id="occasion" name="occasion" required><option value="">Escolha a ocasião</option><option>Casamento</option><option>Aniversário</option><option>Batizado</option><option>Presente especial</option><option>Outra doce ocasião</option></select><div class="form-row"><div><label for="date">Para quando? <span>(opcional)</span></label><input id="date" type="date" name="date"></div><div><label for="guests">Quantas pessoas? <span>(opcional)</span></label><input id="guests" type="number" name="guests" min="1" max="10000" placeholder="Ex.: 30"></div></div><label for="idea">Sua ideia <span>(opcional)</span></label><textarea id="idea" name="idea" rows="3" maxlength="1000" placeholder="Cores, flores, um sabor que você adora…"></textarea><button class="button button-sage" type="submit">Continuar no WhatsApp <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></span></button><p class="form-note">A mensagem será preparada para você enviar. Data, valores e disponibilidade são combinados no atendimento.</p><p class="form-status" id="form-status" role="status" hidden>Mensagem preparada. <a id="whatsapp-fallback" target="_blank" rel="noopener noreferrer">Abrir conversa no WhatsApp <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.25"/></svg></a></p></form></dialog>
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <svg class="footer-mark" aria-hidden="true"><use href="#logo-mark"/></svg>
+      <p>Fé no propósito.<br>Afeto em cada criação.</p>
+    </div>
+    <nav class="footer-col" aria-label="Seções">
+      <p class="eyebrow">Navegue</p>
+      <a href="#criacoes">Criações</a><a href="#essencia">Essência</a><a href="#sabores">Sabores</a><a href="#processo">Processo</a><a href="#galeria">Galeria</a>
+    </nav>
+    <div class="footer-col">
+      <p class="eyebrow">Fale com a gente</p>
+      <a href="https://wa.me/5527997236993" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="https://www.instagram.com/mamma.dulce/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <span>Aracruz e região · ES</span>
+    </div>
+    <a class="back-top round-btn round-btn--lg" href="#inicio" aria-label="Voltar ao início"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+  <p class="footer-word" aria-hidden="true">Mamma Dulce</p>
+  <div class="footer-bottom">
+    <span>© <span id="year">2026</span> Mamma Dulce · Confeitaria artística</span>
+    <span>Feito com carinho em Aracruz, ES</span>
+  </div>
+</footer>
+
+<dialog class="lightbox" aria-label="Foto ampliada">
+  <button type="button" class="dialog-close" data-close aria-label="Fechar"><span></span><span></span></button>
+  <figure class="lightbox-fig">
+    <img class="lightbox-img" src="assets/hero-sm.webp" alt="">
+    <figcaption class="lightbox-cap"></figcaption>
+  </figure>
+  <div class="lightbox-nav">
+    <button type="button" class="round-btn round-btn--light" data-lb="prev" aria-label="Foto anterior"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+    <span class="lightbox-count" aria-live="polite"></span>
+    <button type="button" class="round-btn round-btn--light" data-lb="next" aria-label="Próxima foto"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+  </div>
+</dialog>
+
+<dialog class="order-dialog" aria-labelledby="order-dialog-title">
+  <button type="button" class="dialog-close" data-close aria-label="Fechar"><span></span><span></span></button>
+  <p class="eyebrow">Que bom ter você por aqui</p>
+  <h2 id="order-dialog-title">Vamos pensar no seu <em>momento?</em></h2>
+  <p class="order-dialog-lead">Conte um pouquinho e continue a conversa com a Jaci no WhatsApp.</p>
+  <form id="order-form" novalidate>
+    <fieldset class="chips">
+      <legend>O que vamos celebrar?</legend>
+      <label><input type="radio" name="occasion" value="Casamento" required><span>Casamento</span></label>
+      <label><input type="radio" name="occasion" value="Aniversário"><span>Aniversário</span></label>
+      <label><input type="radio" name="occasion" value="Batizado"><span>Batizado</span></label>
+      <label><input type="radio" name="occasion" value="Presente especial"><span>Presente</span></label>
+      <label><input type="radio" name="occasion" value="Outra doce ocasião"><span>Outra ocasião</span></label>
+    </fieldset>
+    <p class="field-error" id="occasion-error" hidden>Escolha uma ocasião para continuar.</p>
+    <div class="form-row">
+      <label class="field"><span>Para quando? <small>(opcional)</small></span><input type="date" name="date"></label>
+      <label class="field"><span>Quantas pessoas? <small>(opcional)</small></span><input type="number" name="guests" min="1" max="10000" inputmode="numeric" placeholder="Ex.: 30"></label>
+    </div>
+    <label class="field"><span>Sua ideia <small>(opcional)</small></span><textarea name="idea" rows="3" maxlength="1000" placeholder="Cores, flores, um sabor que você adora…"></textarea></label>
+    <button class="btn btn--solid btn--block" type="submit">
+      <span class="btn-fill" aria-hidden="true"></span>
+      <svg class="btn-icon btn-icon--lead" aria-hidden="true"><use href="#i-wa"/></svg>
+      <span class="btn-text"><span class="btn-roll" data-text="Continuar no WhatsApp">Continuar no WhatsApp</span></span>
+      <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <p class="form-note">A mensagem fica pronta para você revisar e enviar. Data, valores e disponibilidade são combinados no atendimento.</p>
+    <p class="form-status" role="status" hidden>Mensagem preparada. <a id="wa-fallback" href="https://wa.me/5527997236993" target="_blank" rel="noopener noreferrer">Abrir conversa no WhatsApp</a></p>
+  </form>
+</dialog>
 </body>
 </html>

@@ -1,55 +1,38 @@
-# Mamma Dulce — GitHub Pages
+# Mamma Dulce · site
 
-Publicado em **https://fliparaujor.github.io/mamma-dulce/**. Versão 3: interações inspiradas nas bibliotecas selecionadas, adaptadas à marca. Consulte [REFERENCES.md](REFERENCES.md) para o mapa de seções, botões e os 15 sites pesquisados.
+Site de uma página da Mamma Dulce, confeitaria artística da Jaciara Simões em Aracruz (ES). Publicado em **https://fliparaujor.github.io/mamma-dulce/**.
 
-Site completo de uma página, pronto para publicar no GitHub Pages. Inclui fotos, logo transparente, fontes locais, animações, galerias laterais, filtros, visualização ampliada e o formulário que prepara uma conversa no WhatsApp.
+É um site estático: HTML, CSS e JavaScript, sem build e sem servidor. Funciona direto no GitHub Pages (Settings → Pages → Deploy from a branch → `main` → `/ (root)`).
 
-## Como publicar
+## Estrutura
 
-1. Crie um repositório no GitHub. Na conta gratuita, use um repositório público para habilitar o Pages.
-2. Extraia o ZIP. Envie **o conteúdo extraído** para a raiz do repositório. O arquivo `index.html` deve aparecer diretamente na primeira tela do repositório, ao lado de `app.js`, dos arquivos CSS e da pasta `assets`.
-3. Conclua o envio com **Commit changes**.
-4. Abra **Settings → Pages**.
-5. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
-6. Selecione a branch **main** (ou a branch na qual enviou os arquivos), a pasta **/(root)** e clique em **Save**.
-7. Aguarde a publicação. O GitHub mostrará o endereço do site na mesma tela.
-
-O endereço de um site de projeto costuma ser `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`. Os caminhos das fotos, fontes e scripts são relativos, para funcionar também nesse tipo de subpasta.
-
-Não envie apenas o ZIP ao repositório: o GitHub precisa dos arquivos extraídos. Não é preciso instalar dependências, executar compilação ou configurar um servidor.
-
-## Arquivos principais
-
-- `index.html`: conteúdo, seções, fotos e contatos.
-- `styles.css`: identidade visual e adaptação às telas.
-- `refinements.css`: ajustes das fotos, cantos arredondados e galerias laterais.
-- `components.css` e `components.js`: títulos, navegação compartilhada, botões, curva da galeria e acordeão animado.
-- `app.js`: menu, animações, galerias, filtros e preparação da mensagem de encomenda.
-- `fonts.css` e `assets/fonts/`: fontes locais e suas licenças.
-- `assets/`: fotos e logo.
-- `.nojekyll`: indica que o conteúdo estático já está pronto para publicação.
-
-## Contatos e funcionamento
-
-O WhatsApp configurado é **+55 27 99723-6993**, e o Instagram é **@mamma.dulce**. Ambos foram obtidos do perfil da marca. Para alterar o telefone, procure por `5527997236993` em `index.html` e `app.js`.
-
-O formulário monta a mensagem e abre o WhatsApp para o visitante revisar e enviar. Não recebe, confirma nem armazena encomendas por conta própria.
-
-As fotos, as fontes e o código do site estão incluídos neste pacote. Os links para Instagram e WhatsApp levam aos respectivos serviços externos.
-
-## Compartilhamento e domínio
-
-O pacote não aponta para o antigo endereço de hospedagem. Depois de publicar, você pode incluir no `<head>` do `index.html` a imagem para prévias de compartilhamento usando o endereço absoluto final:
-
-```html
-<meta property="og:image" content="https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/assets/hero.webp">
+```
+index.html              conteúdo e seções
+css/main.css            todos os estilos
+js/main.js              todas as animações e interações
+assets/                 fotos (versão grande e -sm para celular), logo e ícones
+assets/logo.svg         logo vetorizada (usada também na abertura animada)
+assets/fonts/           Cormorant Garamond e DM Sans (woff2) + licenças OFL
+assets/vendor/          GSAP, ScrollTrigger, SplitText e Lenis, copiados localmente
 ```
 
-Para usar um domínio próprio, configure-o em **Settings → Pages → Custom domain**, seguindo as instruções do GitHub.
+## Seções
 
-## Referências
+Abertura com a logo se desenhando, hero com a foto que cresce até ocupar a tela, manifesto que acende palavra por palavra, faixa em curva, criações em trilho horizontal, essência (Jaciara), sabores com foto que segue o cursor, processo em cartões empilhados, galeria em colunas com parallax, encomendas com rastro de fotos e formulário que abre o WhatsApp, rodapé.
 
-- [Configurar a publicação do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
-- [Usar um domínio próprio](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
+O mapa de onde veio cada efeito está em [REFERENCES.md](REFERENCES.md).
 
-As fontes Cormorant Garamond e DM Sans são distribuídas sob a SIL Open Font License. As licenças estão em `assets/fonts/`.
+## Editar
+
+- WhatsApp: procure `5527997236993` em `index.html` e `js/main.js`.
+- Instagram: procure `mamma.dulce`.
+- Fotos novas: coloque em `assets/` a versão grande e uma `-sm.webp` com 820 px de largura.
+- A abertura completa aparece uma vez por sessão do navegador. Para ver de novo, abra em aba anônima.
+
+## Acessibilidade e desempenho
+
+Quem ativa "reduzir movimento" no sistema recebe o site sem rolagem suave, sem travas e sem animações, com todo o conteúdo visível. Teclado funciona em menu, sabores, galeria ampliada (setas ← →, Esc) e formulário. Se algum script falhar, o conteúdo aparece em até 7 segundos.
+
+## Licenças
+
+Cormorant Garamond e DM Sans: SIL Open Font License (`assets/fonts/`). Lenis: MIT. GSAP: licença gratuita padrão da GreenSock (https://gsap.com/standard-license).
