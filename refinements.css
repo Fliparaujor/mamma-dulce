@@ -1,0 +1,67 @@
+/* Image framing stays independent from entrance and scroll transforms. */
+.brand img{mix-blend-mode:normal;object-fit:contain;animation:brand-appear 1s ease both}
+.hero-photo-frame{position:relative;isolation:isolate}
+.hero-outline{inset:-12px 12px 12px -12px;border-radius:10px;z-index:-1}
+.hero-photo{border-radius:10px}
+.hero-photo img{height:100%;width:100%;object-position:center 58%;will-change:transform}
+.photo-note{position:relative;margin:24px 0 0;font-size:11px;letter-spacing:0;line-height:1.7;text-align:left;color:var(--muted)}
+.photo-note em{font-family:var(--serif);font-size:18px}
+.scroll-hint{margin-top:28px;gap:18px;letter-spacing:.2px;font-size:11px;color:var(--muted);padding:8px 0;transition:color .3s}
+.scroll-hint svg{display:block;width:20px;height:25px;transition:transform .3s}
+.scroll-hint:hover{color:var(--sage-dark)}
+.scroll-hint:hover svg{transform:translateY(4px)}
+.creations{overflow:hidden}
+.photo-rail{display:flex;gap:26px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x pan-y;cursor:grab;align-items:flex-start;padding:6px 1px 25px;outline-offset:4px}
+.photo-rail::-webkit-scrollbar{display:none}
+.creations-grid.photo-rail .creation{flex:0 0 clamp(260px,29vw,400px);min-width:0;padding-top:0;scroll-snap-align:start;scroll-margin-left:1px;user-select:none}
+.creations-grid.photo-rail .creation:nth-child(even){padding-top:26px}
+.creation-image,.gallery-item,.portrait-frame,.flavor-photo,.atelier-inset{border-radius:10px;overflow:hidden}
+.creation-image img,.gallery-item img{border-radius:10px}
+.photo-rail.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.photo-rail.is-dragging button{cursor:grabbing}
+.photo-rail.is-dragging .image-action{opacity:0}
+.rail-footer{display:flex;gap:24px;align-items:center;margin-top:4px}
+.rail-hint{font-size:8px;letter-spacing:1.5px;display:flex;align-items:center;gap:12px;white-space:nowrap}
+.rail-hint svg{width:28px;height:12px}
+.rail-progress{height:1px;flex:1;background:var(--line);position:relative;overflow:hidden}
+.rail-progress>span{position:absolute;inset:0;background:var(--sage);transform-origin:left;transform:scaleX(var(--rail-progress,.3));transition:transform .15s linear}
+.rail-count{font-size:9px;font-variant-numeric:tabular-nums;letter-spacing:1.5px;min-width:50px;text-align:right}
+.rail-controls{display:flex;gap:9px}
+.rail-controls button{display:grid;place-items:center;width:43px;height:43px;border:1px solid #b9bfad;border-radius:50%;transition:background .25s,opacity .25s}
+.rail-controls svg{width:19px;height:19px}
+.rail-controls button:hover:not(:disabled){background:#e7eadd}
+.rail-controls button:disabled{opacity:.3;cursor:default}
+.collection-note{text-align:left;font-size:10px;margin-top:25px}
+.essence{isolation:isolate;overflow:hidden}
+.essence-photos{min-width:0;align-self:center;padding:0 58px 75px 0}
+.portrait-frame{aspect-ratio:3/4;height:auto;position:relative}
+.portrait-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.atelier-inset{position:absolute;right:0;bottom:30px;width:42%;height:auto;aspect-ratio:3/4;max-height:70%;border:7px solid var(--blush);background:var(--blush)}
+.atelier-inset img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.handwritten{z-index:2}
+.flavor-photo{position:relative}
+.flavor-photo img{position:absolute;inset:0;width:100%;height:100%}
+.flavor-photo-label{z-index:2;border-radius:5px}
+.lightbox figure img{border-radius:10px}
+[data-photo]{position:relative;isolation:isolate;overflow:hidden;border-radius:10px;--photo-y:0px;--photo-scale:1.055}
+[data-photo]>img{transform:translate3d(0,var(--photo-y),0) scale(var(--photo-scale));transition:transform 1s cubic-bezier(.2,.65,.3,1);backface-visibility:hidden}
+.motion [data-photo]{opacity:0;clip-path:inset(7% 0 7% 0 round 10px);transition:clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s}
+.motion [data-photo].photo-visible{opacity:1;clip-path:inset(0 0 0 0 round 10px)}
+.motion [data-photo]:not(.photo-visible)>img{transform:translate3d(0,0,0) scale(1.14)}
+.photo-visible:hover{--photo-scale:1.09}
+[data-photo]>img.menu-image{transform:none}
+/* Preserve absolute positioning on this intentionally overlapping inset only. */
+.essence-photos>.atelier-inset{position:absolute}
+@keyframes brand-appear{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(max-width:1100px){.essence-photos{padding-right:35px}.hero-visual{margin-right:0}.photo-note{font-size:10px}}
+@media(max-width:800px){.creations-grid.photo-rail{gap:18px}.creations-grid.photo-rail .creation{flex-basis:41vw}.rail-hint{font-size:7px;letter-spacing:1px}.rail-footer{gap:14px}.essence-photos{padding-right:30px}.photo-note{font-size:10px}.photo-note em{font-size:16px}.scroll-hint{font-size:10px;letter-spacing:0}}
+@media(max-width:580px){.hero{gap:39px}.hero-visual{width:100%;margin-left:0}.hero-photo{aspect-ratio:4/4.8;height:auto}.hero-outline{inset:-9px 9px 9px -9px}.photo-note{font-size:11px;line-height:1.75;margin-top:20px}.photo-note em{font-size:17px}.scroll-hint{display:flex;font-size:10px;gap:13px;margin-top:18px}.scroll-hint svg{width:16px;height:22px}.creations-grid.photo-rail{margin-right:calc(var(--pad)*-1);padding-right:var(--pad);scroll-padding-right:var(--pad);gap:17px}.creations-grid.photo-rail .creation{flex-basis:76vw;max-width:340px}.creations-grid.photo-rail .creation:nth-child(even){padding-top:20px}.creation-caption .eyebrow{font-size:7px;letter-spacing:1px}.creation h3{font-size:29px}.caption-no{font-size:19px}.creation-caption{padding-top:16px}.rail-hint{max-width:130px;white-space:normal;line-height:1.7}.rail-hint svg{display:none}.rail-footer{gap:12px}.rail-controls{gap:6px}.rail-controls button{width:36px;height:36px}.rail-count{font-size:8px;letter-spacing:1px;min-width:43px}.rail-progress{min-width:20px}.collection-note{font-size:9px}.essence-photos{padding:0 48px 55px 0}.atelier-inset{bottom:20px;width:42%;border-width:5px}.image-action{display:flex;inset:auto 12px 12px;font-size:9px;padding:11px;opacity:0}.creation-image:focus-visible .image-action{opacity:1}.gallery-item span{opacity:1;font-size:8px}.photo-visible:hover{--photo-scale:1.055}}
+@media(prefers-reduced-motion:reduce){.motion [data-photo]{opacity:1;clip-path:none}[data-photo]>img{transform:none!important;transition:none!important}.creations-grid.photo-rail{scroll-behavior:auto}.brand img{animation:none}.scroll-hint svg{transform:none!important}}
+
+.hero{height:auto;max-height:none;min-height:calc(100svh - 20px)}
+.creation-image[data-photo]:hover>img,.gallery-item[data-photo]:hover>img{transform:translate3d(0,var(--photo-y),0) scale(var(--photo-scale))}
+.gallery-grid.photo-rail{gap:24px;grid-template-columns:none;align-items:start}
+.gallery-grid.photo-rail .gallery-item{flex:0 0 clamp(250px,28vw,400px);margin-top:0;scroll-snap-align:start}
+.gallery-grid.photo-rail .gallery-item:nth-child(even){margin-top:26px}
+.gallery-grid.photo-rail .gallery-item span{opacity:1}
+@media(max-width:580px){.hero{min-height:0}.gallery-grid.photo-rail{margin-right:calc(var(--pad)*-1);padding-right:var(--pad);gap:17px}.gallery-grid.photo-rail .gallery-item{flex-basis:76vw;max-width:340px}.gallery-grid.photo-rail .gallery-item:nth-child(even){margin-top:20px}}
