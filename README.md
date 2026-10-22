@@ -1,5 +1,7 @@
 # Mamma Dulce — GitHub Pages
 
+Publicado em **https://fliparaujor.github.io/mamma-dulce/**. Versão 3: interações inspiradas nas bibliotecas selecionadas, adaptadas à marca. Consulte [REFERENCES.md](REFERENCES.md) para o mapa de seções, botões e os 15 sites pesquisados.
+
 Site completo de uma página, pronto para publicar no GitHub Pages. Inclui fotos, logo transparente, fontes locais, animações, galerias laterais, filtros, visualização ampliada e o formulário que prepara uma conversa no WhatsApp.
 
 ## Como publicar
@@ -21,6 +23,7 @@ Não envie apenas o ZIP ao repositório: o GitHub precisa dos arquivos extraído
 - `index.html`: conteúdo, seções, fotos e contatos.
 - `styles.css`: identidade visual e adaptação às telas.
 - `refinements.css`: ajustes das fotos, cantos arredondados e galerias laterais.
+- `components.css` e `components.js`: títulos, navegação compartilhada, botões, curva da galeria e acordeão animado.
 - `app.js`: menu, animações, galerias, filtros e preparação da mensagem de encomenda.
 - `fonts.css` e `assets/fonts/`: fontes locais e suas licenças.
 - `assets/`: fotos e logo.

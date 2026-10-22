@@ -163,7 +163,6 @@
   const flavorImage = $('#flavor-image');
   $$('.flavor').forEach(details => details.addEventListener('toggle', () => {
     if (!details.open) return;
-    $$('.flavor').forEach(other => { if (other !== details) other.open = false; });
     flavorImage.src = `assets/${details.dataset.image}.webp`;
     flavorImage.alt = details.dataset.alt;
     flavorImage.classList.toggle('menu-image', details.dataset.image.includes('menu') || details.dataset.image === 'franoa');
