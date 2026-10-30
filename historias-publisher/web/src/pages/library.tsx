@@ -3,6 +3,7 @@ import { parseEpisodeFilename, sortImportCandidates } from '@shared/filename';
 import { CircleAlert, CircleCheck, CloudUpload, Copy, FileVideo, LoaderCircle, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { AutoSchedulePanel } from '@/components/auto-schedule';
 import { EmptyState, Notice, PageHeader } from '@/components/domain';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -257,6 +258,16 @@ export default function LibraryPage() {
   const [dragging, setDragging] = React.useState(false);
   const [toDelete, setToDelete] = React.useState<MediaAsset | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [captionFile, setCaptionFile] = React.useState<{ name: string; text: string } | null>(null);
+
+  // Vídeos vão para a fila de envio; um .txt é o arquivo de legendas da série.
+  const addFiles = (files: FileList | File[]) => {
+    const list = [...files];
+    const txt = list.find((f) => /\.txt$/i.test(f.name));
+    if (txt) void txt.text().then((text) => setCaptionFile({ name: txt.name, text }));
+    const videos = list.filter((f) => !/\.txt$/i.test(f.name));
+    if (videos.length) queue.add(videos);
+  };
 
   const remove = useMutation({
     mutationFn: (id: string) => del(`/api/media/${id}`),
@@ -287,7 +298,7 @@ export default function LibraryPage() {
         onDrop={(e) => {
           e.preventDefault();
           setDragging(false);
-          if (e.dataTransfer.files.length) queue.add(e.dataTransfer.files);
+          if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
         }}
         className={cn(
           'mb-6 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors',
@@ -295,7 +306,7 @@ export default function LibraryPage() {
         )}
       >
         <CloudUpload className="mb-3 size-8 text-accent" />
-        <p className="font-medium">Arraste os vídeos aqui</p>
+        <p className="font-medium">Arraste os vídeos e o arquivo de legendas aqui</p>
         <p className="mt-1 text-sm text-muted">
           MP4 ou MOV, até {formatBytes(data?.maxUploadBytes ?? 0)} cada. Nomes como <code>Historia_01_Ep01.mp4</code> são reconhecidos.
         </p>
@@ -305,11 +316,11 @@ export default function LibraryPage() {
         <input
           ref={inputRef}
           type="file"
-          accept="video/mp4,video/quicktime,.mp4,.mov"
+          accept="video/mp4,video/quicktime,.mp4,.mov,.txt"
           multiple
           className="hidden"
           onChange={(e) => {
-            if (e.target.files?.length) queue.add(e.target.files);
+            if (e.target.files?.length) addFiles(e.target.files);
             e.target.value = '';
           }}
         />
@@ -377,6 +388,8 @@ export default function LibraryPage() {
           </CardContent>
         </Card>
       )}
+
+      {data && <AutoSchedulePanel assets={data.assets} captionFile={captionFile} uploading={finished < total} onCaptionsUsed={() => setCaptionFile(null)} />}
 
       {data && <ImportPanel assets={data.assets} />}
 

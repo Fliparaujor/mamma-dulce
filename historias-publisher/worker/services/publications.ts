@@ -1,6 +1,6 @@
-import { planCalendar, type CalendarConfig, type PlanEpisode } from '../../shared/calendar';
+import { autoTimes, planCalendar, type CalendarConfig, type PlanEpisode } from '../../shared/calendar';
 import { isBufferPlatform, PLATFORMS, type Platform } from '../../shared/constants';
-import { zonedToUtc } from '../../shared/time';
+import { addDays, localDate, zonedToUtc } from '../../shared/time';
 import { BufferError } from '../buffer/client';
 import { createBufferSession } from '../buffer/factory';
 import { all, first, nowIso, placeholders, run } from '../lib/db';
@@ -246,6 +246,8 @@ export interface CalendarRequest {
   times: string[];
   platforms: Platform[];
   episodeIds?: number[];
+  /** Só aceita horários depois deste instante (fim do calendário atual). */
+  notBefore?: string;
 }
 
 export async function buildPlan(env: Env, req: CalendarRequest, now = new Date()) {
@@ -285,7 +287,7 @@ export async function buildPlan(env: Env, req: CalendarRequest, now = new Date()
       cfg,
       planEpisodes,
       existing.map((j) => ({ episodeId: j.episode_id, platform: j.platform, scheduledAt: j.scheduled_at })),
-      now,
+      req.notBefore && new Date(req.notBefore) > now ? new Date(req.notBefore) : now,
     );
   } catch (e) {
     throw badRequest((e as Error).message);
@@ -315,6 +317,38 @@ export async function commitPlan(env: Env, req: CalendarRequest, now = new Date(
     for (const r of results) created += r.meta.changes ?? 0;
   }
   return { created, ignored: stmts.length - created, plan, timezone };
+}
+
+/**
+ * Agenda automática: pega os episódios com vídeo que ainda não têm publicação e os coloca depois
+ * do último post do calendário. Calendário vazio começa amanhã no primeiro horário.
+ */
+export async function buildAutoRequest(env: Env, platforms: Platform[], now = new Date()) {
+  const settings = await getSettings(env);
+  let times: string[];
+  try {
+    times = autoTimes(settings.autoFirstTime, settings.autoPerDay, settings.autoIntervalHours);
+  } catch (e) {
+    throw badRequest((e as Error).message);
+  }
+  const pending = await all<{ id: number; shared_caption: string; title: string }>(
+    env.DB,
+    `SELECT e.id, e.shared_caption, e.title FROM episodes e
+     WHERE e.media_asset_id IS NOT NULL
+       AND NOT EXISTS (SELECT 1 FROM publication_jobs j WHERE j.episode_id = e.id AND j.state <> 'cancelled')`,
+  );
+  const last = await first<{ at: string | null }>(env.DB, `SELECT MAX(scheduled_at) AS at FROM publication_jobs WHERE state <> 'cancelled'`);
+  const tomorrow = addDays(localDate(now, settings.timezone), 1);
+  const lastDate = last?.at ? localDate(last.at, settings.timezone) : tomorrow;
+  const request: CalendarRequest = {
+    startDate: lastDate > tomorrow ? lastDate : tomorrow,
+    days: Math.min(120, Math.ceil(pending.length / times.length) + 2),
+    times,
+    platforms,
+    episodeIds: pending.map((p) => p.id),
+    notBefore: last?.at ?? undefined,
+  };
+  return { request, withoutCaption: pending.filter((p) => !p.shared_caption.trim()).map((p) => p.title) };
 }
 
 export function assertPlatforms(list: string[]): Platform[] {

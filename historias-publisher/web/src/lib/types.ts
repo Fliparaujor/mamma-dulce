@@ -173,6 +173,9 @@ export interface Settings {
   timezone: string;
   defaultTimes: string[];
   calendarDays: number;
+  autoFirstTime: string;
+  autoPerDay: number;
+  autoIntervalHours: number;
   autofillPaused: boolean;
   dryRun: boolean;
   schedulerIntervalMinutes: number;

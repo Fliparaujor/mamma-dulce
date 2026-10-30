@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { composeCaption, validateCaption } from '../../shared/captions';
 import { PLATFORMS, type Platform } from '../../shared/constants';
 import { slugify } from '../../shared/filename';
+import { captionEpisodeTitle } from '../../shared/legendas';
 import { all, chunk, first, nowIso, placeholders, run } from '../lib/db';
 import { badRequest, conflict, notFound, parseWith, readJson } from '../lib/http';
 import { mediaPath } from '../services/media';
@@ -545,6 +546,45 @@ content.post('/episodes/import', async (c) => {
   }
   if (stmts.length) await db.batch(stmts);
   return c.json(result);
+});
+
+const captionsInput = z.object({
+  seriesName: z.string().trim().min(1).max(120),
+  items: z
+    .array(
+      z.object({
+        episodeNumber: z.number().int().positive().max(100000),
+        subtitle: z.string().trim().max(150).default(''),
+        caption: z.string().max(5000),
+        hashtags: z.string().max(1000).default(''),
+      }),
+    )
+    .min(1)
+    .max(500),
+});
+
+content.post('/episodes/captions', async (c) => {
+  const { seriesName, items } = parseWith(captionsInput, await readJson(c.req.raw));
+  const db = c.env.DB;
+  const series = await first<{ id: number; title: string }>(
+    db,
+    `SELECT id, title FROM series WHERE profile_id = 'default' AND slug = ?`,
+    slugify(seriesName) || 'serie',
+  );
+  if (!series) throw notFound(`Série "${seriesName}" não encontrada.`);
+  const now = nowIso();
+  const results = await db.batch(
+    items.map((item) =>
+      db
+        .prepare(
+          `UPDATE episodes SET title = ?, caption_mode = 'shared', shared_caption = ?, shared_hashtags = ?, updated_at = ?
+           WHERE series_id = ? AND episode_number = ?`,
+        )
+        .bind(captionEpisodeTitle(series.title, item.episodeNumber, item.subtitle), item.caption, item.hashtags, now, series.id, item.episodeNumber),
+    ),
+  );
+  const missing = items.filter((_, i) => !results[i]?.meta.changes).map((i) => i.episodeNumber);
+  return c.json({ updated: items.length - missing.length, missing });
 });
 
 export default content;

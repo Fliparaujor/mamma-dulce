@@ -9,6 +9,10 @@ export const settingsSchema = z.object({
   timezone: z.string().refine(isValidTimeZone, 'fuso horário desconhecido').default('America/Belem'),
   defaultTimes: z.array(timeString).min(1).max(12).default(['12:00', '19:00']),
   calendarDays: z.number().int().min(1).max(120).default(30),
+  /** Agenda automática: primeiro horário do dia, posts por dia e intervalo entre eles. */
+  autoFirstTime: timeString.default('12:00'),
+  autoPerDay: z.number().int().min(1).max(12).default(2),
+  autoIntervalHours: z.number().int().min(1).max(23).default(8),
 
   /** Pausa só o abastecimento da fila do Buffer; a reconciliação continua. */
   autofillPaused: z.boolean().default(false),

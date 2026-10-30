@@ -63,6 +63,14 @@ export function validateCalendarConfig(cfg: CalendarConfig): string[] {
   return errors;
 }
 
+/** Horários da agenda automática: "12:00", 2 por dia, 8 h de intervalo viram 12:00 e 20:00. */
+export function autoTimes(firstTime: string, perDay: number, intervalHours: number): string[] {
+  const [h, m] = firstTime.split(':').map(Number) as [number, number];
+  const lastHour = h + (perDay - 1) * intervalHours;
+  if (lastHour >= 24) throw new Error(`${perDay} posts com ${intervalHours} h de intervalo a partir de ${firstTime} passam da meia-noite.`);
+  return Array.from({ length: perDay }, (_, i) => `${String(h + i * intervalHours).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
+}
+
 export function buildSlots(cfg: CalendarConfig): Slot[] {
   const times = [...cfg.times].sort();
   const slots: Slot[] = [];

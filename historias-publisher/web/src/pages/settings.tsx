@@ -117,6 +117,15 @@ export default function SettingsPage() {
             <Field label="Dias por calendário">
               <Input type="number" min={1} max={120} value={form.calendarDays} onChange={(e) => set('calendarDays', Number(e.target.value))} />
             </Field>
+            <Field label="Agenda automática: primeiro horário">
+              <Input type="time" value={form.autoFirstTime} onChange={(e) => set('autoFirstTime', e.target.value)} />
+            </Field>
+            <Field label="Agenda automática: posts por dia">
+              <Input type="number" min={1} max={12} value={form.autoPerDay} onChange={(e) => set('autoPerDay', Number(e.target.value))} />
+            </Field>
+            <Field label="Agenda automática: intervalo em horas">
+              <Input type="number" min={1} max={23} value={form.autoIntervalHours} onChange={(e) => set('autoIntervalHours', Number(e.target.value))} />
+            </Field>
           </CardContent>
         </Card>
 

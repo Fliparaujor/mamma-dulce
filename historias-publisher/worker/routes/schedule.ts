@@ -1,12 +1,13 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { PLATFORMS } from '../../shared/constants';
+import { BUFFER_PLATFORMS, PLATFORMS } from '../../shared/constants';
 import { isValidDate, isValidTime, zonedToUtc } from '../../shared/time';
 import { kwaiQueue } from '../kwai';
 import { all, first } from '../lib/db';
 import { badRequest, parseWith, readJson } from '../lib/http';
 import { runScheduler } from '../scheduler/run';
 import {
+  buildAutoRequest,
   buildPlan,
   cancelJob,
   commitPlan,
@@ -46,6 +47,21 @@ schedule.post('/calendar/commit', async (c) => {
   const body = parseWith(calendarInput, await readJson(c.req.raw));
   const result = await commitPlan(c.env, body);
   return c.json(result);
+});
+
+const autoInput = z.object({ platforms: platformList.default([...BUFFER_PLATFORMS]) });
+
+schedule.post('/calendar/auto/preview', async (c) => {
+  const { platforms } = parseWith(autoInput, await readJson(c.req.raw));
+  const { request, withoutCaption } = await buildAutoRequest(c.env, platforms);
+  const { plan, timezone } = await buildPlan(c.env, request);
+  return c.json({ plan, timezone, withoutCaption });
+});
+
+schedule.post('/calendar/auto/commit', async (c) => {
+  const { platforms } = parseWith(autoInput, await readJson(c.req.raw));
+  const { request } = await buildAutoRequest(c.env, platforms);
+  return c.json(await commitPlan(c.env, request));
 });
 
 interface JobListRow {
