@@ -71,6 +71,55 @@ export function autoTimes(firstTime: string, perDay: number, intervalHours: numb
   return Array.from({ length: perDay }, (_, i) => `${String(h + i * intervalHours).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
 }
 
+export interface PullJob {
+  id: number;
+  episodeId: number;
+  label: string;
+  platform: Platform;
+  scheduledAt: string; // ISO UTC
+}
+
+export interface PullMove {
+  jobId: number;
+  episodeId: number;
+  label: string;
+  platform: Platform;
+  from: string;
+  to: string;
+}
+
+/**
+ * Antecipa um episódio e fecha o buraco: cada horário depois dele herda o horário anterior.
+ * O que vem antes não muda. A lista sai em ordem crescente, a ordem segura para gravar:
+ * cada horário de destino já foi liberado quando chega a vez dele.
+ */
+export function planPull(
+  movable: PullJob[],
+  fixed: { platform: Platform; scheduledAt: string }[],
+  episodeId: number,
+  target: string,
+): PullMove[] {
+  const picked = movable.filter((j) => j.episodeId === episodeId);
+  if (picked.length === 0) throw new Error('Este episódio não tem publicações que possam ser movidas.');
+  const from = picked.map((j) => j.scheduledAt).sort()[0]!;
+  if (target >= from) throw new Error('O novo horário precisa ser antes do horário atual do episódio.');
+
+  const toMove = (j: PullJob, to: string): PullMove => ({ jobId: j.id, episodeId: j.episodeId, label: j.label, platform: j.platform, from: j.scheduledAt, to });
+  const moves = picked.map((j) => toMove(j, target));
+  const later = movable.filter((j) => j.episodeId !== episodeId && j.scheduledAt > from);
+  let previous = from;
+  for (const instant of [...new Set(later.map((j) => j.scheduledAt))].sort()) {
+    for (const j of later.filter((l) => l.scheduledAt === instant)) moves.push(toMove(j, previous));
+    previous = instant;
+  }
+
+  const staying = movable.filter((j) => j.episodeId !== episodeId && j.scheduledAt <= from);
+  const blocked = new Set([...fixed, ...staying].map((j) => `${j.platform}@${j.scheduledAt}`));
+  const clash = moves.find((m) => blocked.has(`${m.platform}@${m.to}`));
+  if (clash) throw new Error(`O horário de destino de ${clash.label} já está ocupado.`);
+  return moves;
+}
+
 export function buildSlots(cfg: CalendarConfig): Slot[] {
   const times = [...cfg.times].sort();
   const slots: Slot[] = [];

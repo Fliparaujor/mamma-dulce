@@ -13,6 +13,7 @@ import {
   commitPlan,
   confirmManual,
   jobAttempts,
+  pullEpisode,
   rescheduleJob,
   retryJob,
   shiftJobs,
@@ -200,6 +201,17 @@ schedule.post('/episodes/:id/reschedule', async (c) => {
     }
   }
   return c.json({ results });
+});
+
+const pullInput = rescheduleInput.extend({ apply: z.boolean().default(false) });
+
+schedule.post('/episodes/:id/pull', async (c) => {
+  const id = parseWith(idParam, c.req.param('id'));
+  const body = parseWith(pullInput, await readJson(c.req.raw));
+  const result = await pullEpisode(c.env, id, body.date, body.time, body.apply);
+  // O agendador roda de hora em hora: sem isso, um post puxado para daqui a pouco chegaria atrasado ao Buffer.
+  if (result.needsSync) await runScheduler(c.env, 'manual');
+  return c.json(result);
 });
 
 schedule.post('/jobs/:id/cancel', async (c) => {

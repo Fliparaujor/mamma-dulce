@@ -4,6 +4,7 @@ import { localDate, localTime } from '@shared/time';
 import { CalendarClock, ExternalLink, RotateCcw, XCircle } from 'lucide-react';
 import * as React from 'react';
 import { Notice, PlatformMark, StateBadge } from '@/components/domain';
+import { PullEpisode } from '@/components/pull-episode';
 import { Button } from '@/components/ui/button';
 import { Dialog, SheetContent } from '@/components/ui/dialog';
 import { Field, Input } from '@/components/ui/input';
@@ -130,6 +131,8 @@ export function JobSheet({ jobId, timezone, onClose }: { jobId: number | null; t
                 {job.state === 'scheduled_buffer' && <p className="mt-2 text-xs text-muted">O horário também é alterado no Buffer.</p>}
               </div>
             )}
+
+            {canReschedule && <PullEpisode key={job.episodeId} episodeId={job.episodeId} timezone={timezone} onDone={onClose} />}
 
             <div className="flex flex-wrap gap-2">
               {canRetry && (

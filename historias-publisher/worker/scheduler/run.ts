@@ -30,11 +30,9 @@ import {
   type JobForPublishing,
   type JobRow,
 } from './jobs';
-import { acquireLock, releaseLockStatement } from './lock';
+import { acquireLock, releaseLockStatement, SCHEDULER_LOCK as LOCK_NAME, SCHEDULER_LOCK_TTL_MS as LOCK_TTL_MS } from './lock';
 import { runMediaCleanup } from './cleanup';
 
-const LOCK_NAME = 'scheduler';
-const LOCK_TTL_MS = 10 * 60_000;
 /** Tempo sem encontrar no Buffer um post em "creating" antes de considerá-lo não criado. */
 export const CREATE_RECOVERY_GRACE_MS = 10 * 60_000;
 const FULL_SYNC_EVERY_MS = 6 * 3600_000;

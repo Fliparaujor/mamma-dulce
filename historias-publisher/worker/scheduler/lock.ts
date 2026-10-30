@@ -5,6 +5,9 @@ import type { Env } from '../env';
  * Trava distribuída simples no D1. Só um agendador por vez; a trava expira sozinha
  * caso uma execução morra no meio (o Worker pode ser interrompido sem aviso).
  */
+export const SCHEDULER_LOCK = 'scheduler';
+export const SCHEDULER_LOCK_TTL_MS = 10 * 60_000;
+
 export async function acquireLock(env: Env, name: string, holder: string, ttlMs: number, now = new Date()): Promise<boolean> {
   const res = await run(
     env.DB,

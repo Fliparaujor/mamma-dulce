@@ -1,4 +1,4 @@
-import { autoTimes, planCalendar, type CalendarConfig, type PlanEpisode } from '../../shared/calendar';
+import { autoTimes, planCalendar, planPull, type CalendarConfig, type PlanEpisode, type PullJob } from '../../shared/calendar';
 import { isBufferPlatform, PLATFORMS, type Platform } from '../../shared/constants';
 import { addDays, localDate, zonedToUtc } from '../../shared/time';
 import { BufferError } from '../buffer/client';
@@ -6,6 +6,7 @@ import { createBufferSession } from '../buffer/factory';
 import { all, first, nowIso, placeholders, run } from '../lib/db';
 import { badRequest, conflict, HttpError, notFound } from '../lib/http';
 import { attemptStatement, type JobRow } from '../scheduler/jobs';
+import { acquireLock, releaseLock, SCHEDULER_LOCK, SCHEDULER_LOCK_TTL_MS } from '../scheduler/lock';
 import { getSettings, type Settings } from '../settings';
 import type { Env } from '../env';
 
@@ -19,8 +20,8 @@ function isUniqueViolation(e: unknown): boolean {
   return /UNIQUE constraint failed/i.test((e as Error)?.message ?? '');
 }
 
-function bufferSessionOrThrow(env: Env, settings: Settings) {
-  const session = createBufferSession(env, { maxRequests: 3 });
+function bufferSessionOrThrow(env: Env, settings: Settings, maxRequests = 3) {
+  const session = createBufferSession(env, { maxRequests });
   if (!session || !settings.bufferOrganizationId) {
     throw new HttpError(503, 'Buffer não configurado. Configure a chave e a organização em Redes conectadas.', 'buffer_not_configured');
   }
@@ -226,6 +227,98 @@ export async function shiftJobs(
     }
   }
   return { moved: movable.length, skippedInBuffer };
+}
+
+// ---------- Puxar episódio ----------
+
+/** Teto de edições no Buffer por pedido: o plano Free do Workers limita as chamadas externas a 50. */
+const MAX_PULL_EDITS = 40;
+
+interface PullRow {
+  id: number;
+  episode_id: number;
+  platform: Platform;
+  scheduled_at: string;
+  state: string;
+  buffer_post_id: string | null;
+  label: string;
+}
+
+/** Antecipa um episódio e sobe os seguintes uma vaga. Sem `apply`, só devolve o que mudaria. */
+export async function pullEpisode(env: Env, episodeId: number, date: string, time: string, apply: boolean, now = new Date()) {
+  const settings = await getSettings(env);
+  const minStart = new Date(now.getTime() + settings.minLeadMinutes * 60_000).toISOString();
+  const target = zonedToUtc(date, time, settings.timezone).toISOString();
+  if (target < minStart) throw badRequest(`Escolha um horário com pelo menos ${settings.minLeadMinutes} minutos de antecedência.`);
+
+  const rows = await all<PullRow>(
+    env.DB,
+    `SELECT j.id, j.episode_id, j.platform, j.scheduled_at, j.state, j.buffer_post_id, s.title || ' · Ep. ' || e.episode_number AS label
+     FROM publication_jobs j JOIN episodes e ON e.id = j.episode_id JOIN series s ON s.id = e.series_id
+     WHERE j.state NOT IN ('cancelled', 'published')`,
+  );
+  if (rows.some((r) => r.state === 'creating')) throw conflict('Há um envio ao Buffer em andamento. Tente de novo em instantes.');
+
+  const isMovable = (r: PullRow) =>
+    r.scheduled_at >= minStart &&
+    (r.state === 'planned' || (r.state === 'scheduled_buffer' && !!r.buffer_post_id) || (r.state === 'manual_pending' && r.platform === 'kwai'));
+  const toPullJob = (r: PullRow): PullJob => ({ id: r.id, episodeId: r.episode_id, label: r.label, platform: r.platform, scheduledAt: r.scheduled_at });
+  let moves;
+  try {
+    moves = planPull(rows.filter(isMovable).map(toPullJob), rows.filter((r) => !isMovable(r)).map(toPullJob), episodeId, target);
+  } catch (e) {
+    throw badRequest((e as Error).message);
+  }
+  if (!apply) return { moves };
+
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const edits = moves.filter((m) => byId.get(m.jobId)!.state === 'scheduled_buffer').length;
+  if (edits > MAX_PULL_EDITS) throw badRequest(`São ${edits} posts para alterar no Buffer; o limite por vez é ${MAX_PULL_EDITS}.`);
+
+  const holder = crypto.randomUUID();
+  if (!(await acquireLock(env, SCHEDULER_LOCK, holder, SCHEDULER_LOCK_TTL_MS, now))) {
+    throw conflict('O agendador está rodando. Tente de novo em instantes.');
+  }
+  const session = edits > 0 ? bufferSessionOrThrow(env, settings, edits + 3) : null;
+  const nowS = nowIso(now);
+  const stmts: D1PreparedStatement[] = [];
+  let moved = 0;
+  let failed: string | undefined;
+  try {
+    for (const m of moves) {
+      const row = byId.get(m.jobId)!;
+      if (row.state === 'scheduled_buffer') {
+        const result = await session!.api.reschedulePost(row.buffer_post_id!, m.to);
+        if (!result.ok) {
+          failed = `O Buffer recusou ${m.label}: ${result.message}`;
+          break;
+        }
+        stmts.push(
+          env.DB.prepare(`UPDATE publication_jobs SET scheduled_at = ?, buffer_due_at = ?, buffer_status = ?, updated_at = ? WHERE id = ?`).bind(
+            m.to,
+            result.post.dueAt ?? m.to,
+            result.post.status,
+            nowS,
+            m.jobId,
+          ),
+        );
+      } else {
+        stmts.push(env.DB.prepare(`UPDATE publication_jobs SET scheduled_at = ?, updated_at = ? WHERE id = ?`).bind(m.to, nowS, m.jobId));
+      }
+      stmts.push(attemptStatement(env.DB, m.jobId, 'edit', 'info', `Reorganizado de ${m.from} para ${m.to}.`, null, null, now));
+      moved++;
+    }
+  } catch (e) {
+    if (!(e instanceof BufferError)) throw e;
+    failed = e.outcomeUnknown ? `${e.message} Confira no Buffer.` : e.message;
+  } finally {
+    // Grava o que o Buffer já aceitou, mesmo se parou no meio.
+    if (stmts.length) await env.DB.batch(stmts);
+    await session?.flush();
+    await releaseLock(env, SCHEDULER_LOCK, holder);
+  }
+  const pickedPlanned = moves.some((m) => m.episodeId === episodeId && byId.get(m.jobId)!.state === 'planned');
+  return { moves, moved, failed, needsSync: !failed && pickedPlanned };
 }
 
 // ---------- Calendário ----------
