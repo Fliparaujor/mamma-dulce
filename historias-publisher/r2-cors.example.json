@@ -1,0 +1,13 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "origins": ["https://historias-publisher.SEU-SUBDOMINIO.workers.dev"],
+        "methods": ["PUT"],
+        "headers": ["content-type"]
+      },
+      "exposeHeaders": ["ETag"],
+      "maxAgeSeconds": 3600
+    }
+  ]
+}

@@ -36,3 +36,7 @@ Quem ativa "reduzir movimento" no sistema recebe o site sem rolagem suave, sem t
 ## Licenças
 
 Cormorant Garamond e DM Sans: SIL Open Font License (`assets/fonts/`). Lenis: MIT. GSAP: licença gratuita padrão da GreenSock (https://gsap.com/standard-license).
+
+## Outros projetos neste repositório
+
+`historias-publisher/` é um app separado (painel de publicação de vídeos do @istoriasbrasileiras, em Cloudflare Workers). Não afeta o site: o GitHub Pages continua servindo só os arquivos da raiz. Instruções em [historias-publisher/README.md](historias-publisher/README.md).

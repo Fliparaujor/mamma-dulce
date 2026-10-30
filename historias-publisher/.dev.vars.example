@@ -1,0 +1,14 @@
+# Copie para .dev.vars (já está no .gitignore) para rodar localmente com `npm run dev`.
+# Em produção estes valores são segredos da Cloudflare (`npx wrangler secret put NOME`), nunca arquivos.
+
+# Gere com: npm run hash-password
+ADMIN_PASSWORD_HASH=
+
+# Opcional no desenvolvimento. Gere em https://publish.buffer.com/settings/api
+BUFFER_API_KEY=
+
+# Opcional: credenciais S3 do R2 para upload direto do navegador ao bucket.
+# Sem elas, o upload passa pelo Worker (funciona igual, só limitado a 100 MB por requisição).
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=

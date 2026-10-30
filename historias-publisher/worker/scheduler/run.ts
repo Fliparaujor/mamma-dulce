@@ -331,7 +331,6 @@ async function bufferPhase(
     return;
   }
   const byPlatform = new Map<Platform, ChannelRow>(channels.map((c) => [c.platform, c]));
-  const byExternal = new Map<string, ChannelRow>(channels.map((c) => [c.external_id!, c]));
 
   const tracked = await all<JobRow>(
     env.DB,
@@ -373,10 +372,10 @@ async function bufferPhase(
 
   const channelIds = channels.map((c) => c.external_id!);
   const stmts: D1PreparedStatement[] = [];
-  let occupancyComplete = true;
+  let occupancyComplete: boolean;
 
   // 1) Posts que ocupam vaga na fila (inclui os criados fora do app).
-  let active: BufferPost[] = [];
+  let active: BufferPost[];
   try {
     const res = await session.api.posts(orgId, { channelIds, status: ['scheduled', 'sending', 'needs_approval'] }, 4);
     active = res.posts;

@@ -1,4 +1,5 @@
-// Módulo Kwai. Não há API oficial de publicação usada aqui; o fluxo é manual e assistido:
+// Módulo Kwai. A Kuaishou Open Platform (open.kuaishou.com) tem escopo de publicação (user_video_publish),
+// mas não foi confirmado que ela atenda contas do Kwai no Brasil. Sem essa confirmação, o fluxo é manual e assistido:
 // fila do dia, legenda pronta, vídeo para baixar/compartilhar e confirmação explícita do administrador.
 // Nada é marcado como publicado sem essa confirmação. Para integrar uma API oficial no futuro,
 // implemente um "provider" com a mesma interface de listagem/confirmação.

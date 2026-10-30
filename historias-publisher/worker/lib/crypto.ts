@@ -45,7 +45,8 @@ export function timingSafeEqual(a: string, b: string): boolean {
 
 /**
  * Formato do hash de senha: pbkdf2-sha256$<iterações>$<sal base64>$<hash base64>.
- * Gerado por `npm run hash-password`. O Workers limita PBKDF2 a 100.000 iterações.
+ * Gerado por `npm run hash-password`. O Workers limita PBKDF2 a 100.000 iterações; no plano Free
+ * (10 ms de CPU por requisição) o padrão é 10.000, que mede ~8 ms no runtime.
  */
 export interface ParsedPasswordHash {
   iterations: number;

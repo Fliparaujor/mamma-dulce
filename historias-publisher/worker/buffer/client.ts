@@ -171,7 +171,7 @@ export class BufferClient {
     const rateLimit = parseRateLimitHeaders(res.headers);
     await this.opts.onResponse?.({ operation, status: res.status, rateLimit });
 
-    let body: { data?: T; errors?: GraphQLErrorShape[] } | null = null;
+    let body: { data?: T; errors?: GraphQLErrorShape[] } | null;
     try {
       body = (await res.json()) as { data?: T; errors?: GraphQLErrorShape[] };
     } catch {

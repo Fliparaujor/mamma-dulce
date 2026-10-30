@@ -48,7 +48,7 @@ const SETTINGS_KEY = 'settings';
 
 export async function getSettings(env: Env): Promise<Settings> {
   const rows = await all<{ value: string }>(env.DB, 'SELECT value FROM app_settings WHERE key = ?', SETTINGS_KEY);
-  let stored: unknown = {};
+  let stored: unknown;
   try {
     stored = rows[0] ? JSON.parse(rows[0].value) : {};
   } catch {
