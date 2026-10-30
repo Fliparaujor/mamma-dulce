@@ -19,7 +19,7 @@
     {
       "binding": "DB",
       "database_name": "historias-publisher",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "d84a5fc5-bd37-4bf0-b452-2b44922a2653",
       "migrations_dir": "migrations"
     }
   ],
@@ -36,6 +36,7 @@
     "crons": ["7,22,37,52 * * * *"]
   },
   "vars": {
+    "PUBLIC_BASE_URL": "https://historias-publisher.felipelabmor.workers.dev",
     "APP_TIMEZONE": "America/Belem",
     "R2_BUCKET_NAME": "historias-publisher-media",
     "MAX_UPLOAD_BYTES": "524288000"
