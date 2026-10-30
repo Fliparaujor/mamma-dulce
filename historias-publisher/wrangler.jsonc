@@ -1,0 +1,46 @@
+// Configuração do Worker "Histórias Publisher".
+// Antes do primeiro deploy, troque database_id pelo ID retornado por
+// `npx wrangler d1 create historias-publisher` (veja README.md).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "historias-publisher",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // O painel (React) é servido como arquivos estáticos pelo próprio Worker.
+  // Rotas /api/*, /media/* e /feeds/* passam primeiro pelo código do Worker.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/media/*", "/feeds/*", "/healthz"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "historias-publisher",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "historias-publisher-media"
+    }
+  ],
+  // O cron dispara a cada 15 minutos (minutos deslocados para fugir do pico da hora cheia),
+  // mas o agendador só trabalha quando o intervalo configurado no painel (padrão: 60 min) venceu.
+  // Disparos pulados custam 1 a 2 consultas ao D1 e nenhuma chamada ao Buffer.
+  "triggers": {
+    "crons": ["7,22,37,52 * * * *"]
+  },
+  "vars": {
+    "APP_TIMEZONE": "America/Belem",
+    "R2_BUCKET_NAME": "historias-publisher-media",
+    "MAX_UPLOAD_BYTES": "524288000"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
