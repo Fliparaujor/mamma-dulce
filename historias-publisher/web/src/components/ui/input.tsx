@@ -4,8 +4,23 @@ import { cn } from '@/lib/utils';
 const field =
   'w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-60';
 
-export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, ...props }, ref) => (
-  <input ref={ref} className={cn(field, 'h-10', className)} {...props} />
+export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, onClick, ...props }, ref) => (
+  <input
+    ref={ref}
+    className={cn(field, 'h-10', className)}
+    onClick={(e) => {
+      onClick?.(e);
+      // Clicar em qualquer parte do campo de data abre o calendário, não só no ícone.
+      if (props.type === 'date') {
+        try {
+          e.currentTarget.showPicker();
+        } catch {
+          // Navegador sem showPicker: segue digitando no campo.
+        }
+      }
+    }}
+    {...props}
+  />
 ));
 Input.displayName = 'Input';
 
