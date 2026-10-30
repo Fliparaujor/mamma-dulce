@@ -5,6 +5,7 @@ import { CalendarPlus, ChevronLeft, ChevronRight, MoveRight, Plus, X } from 'luc
 import * as React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { JobSheet } from '@/components/job-sheet';
+import { DRAG_TYPE, MoveEpisodeDialog, type DraggedEpisode } from '@/components/move-episode';
 import { Notice, PageHeader, PlatformMark, stateDot } from '@/components/domain';
 import { Button } from '@/components/ui/button';
 import { Checkbox, Tabs, TabsList, TabsTrigger } from '@/components/ui/controls';
@@ -44,9 +45,22 @@ function groupByDay(jobs: Job[], tz: string): Map<string, Slot[]> {
   return out;
 }
 
+const UNMOVABLE: Job['state'][] = ['published', 'creating', 'cancelled'];
+
 function SlotItem({ slot, onOpen, compact }: { slot: Slot; onOpen: (id: number) => void; compact?: boolean }) {
+  const movable = slot.jobs.some((j) => !UNMOVABLE.includes(j.state));
   return (
-    <div className={cn('rounded-md border border-border bg-surface-2/70', compact ? 'px-1.5 py-1' : 'px-2.5 py-2')}>
+    <div
+      draggable={movable}
+      onDragStart={(e) => {
+        const j = slot.jobs[0]!;
+        const data: DraggedEpisode = { episodeId: j.episodeId, title: slot.episodeTitle, scheduledAt: j.scheduledAt, time: slot.time };
+        e.dataTransfer.setData(DRAG_TYPE, JSON.stringify(data));
+        e.dataTransfer.effectAllowed = 'move';
+      }}
+      title={movable ? 'Arraste para outro dia' : undefined}
+      className={cn('rounded-md border border-border bg-surface-2/70', movable && 'cursor-grab active:cursor-grabbing', compact ? 'px-1.5 py-1' : 'px-2.5 py-2')}
+    >
       <div className="flex items-baseline gap-1.5">
         <span className="text-[11px] font-medium text-accent tabular">{slot.time}</span>
         <span className={cn('truncate', compact ? 'text-[11px]' : 'text-sm font-medium')}>
@@ -266,6 +280,23 @@ export default function CalendarPage() {
   const [jobId, setJobId] = React.useState<number | null>(null);
   const [dayOpen, setDayOpen] = React.useState<string | null>(null);
   const [shiftOpen, setShiftOpen] = React.useState(false);
+  const [dragOver, setDragOver] = React.useState<string | null>(null);
+  const [drop, setDrop] = React.useState<{ episode: DraggedEpisode; date: string } | null>(null);
+  const dropTarget = (d: string) => ({
+    onDragOver: (e: React.DragEvent) => {
+      if (!e.dataTransfer.types.includes(DRAG_TYPE)) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (dragOver !== d) setDragOver(d);
+    },
+    onDragLeave: () => setDragOver((cur) => (cur === d ? null : cur)),
+    onDrop: (e: React.DragEvent) => {
+      e.preventDefault();
+      setDragOver(null);
+      const raw = e.dataTransfer.getData(DRAG_TYPE);
+      if (raw) setDrop({ episode: JSON.parse(raw) as DraggedEpisode, date: d });
+    },
+  });
   const generatorOpen = params.get('gerar') === '1';
 
   const range = React.useMemo(() => {
@@ -294,7 +325,7 @@ export default function CalendarPage() {
     <div className="animate-in">
       <PageHeader
         title="Calendário"
-        description="Tudo que está planejado, agendado e publicado. Toque numa rede para ver detalhes ou reagendar."
+        description="Tudo que está planejado, agendado e publicado. Arraste um episódio para outro dia, ou toque numa rede para ver detalhes."
         actions={
           <>
             <Button variant="secondary" onClick={() => setShiftOpen(true)}>
@@ -347,9 +378,11 @@ export default function CalendarPage() {
                 <button
                   key={d}
                   onClick={() => setDayOpen(d)}
+                  {...dropTarget(d)}
                   className={cn(
                     'flex min-h-20 flex-col gap-1 border-r border-b border-border p-1 text-left align-top transition-colors hover:bg-surface-2/50 sm:min-h-32 sm:p-1.5 [&:nth-child(7n)]:border-r-0',
                     !inMonth && 'bg-surface-2/30 opacity-50',
+                    dragOver === d && 'bg-accent-soft ring-2 ring-accent ring-inset',
                   )}
                 >
                   <span className={cn('text-xs tabular', d === today ? 'flex size-6 items-center justify-center rounded-full bg-accent font-semibold text-accent-foreground' : 'text-muted')}>
@@ -376,7 +409,11 @@ export default function CalendarPage() {
           {days.map((d) => {
             const slots = byDay.get(d) ?? [];
             return (
-              <div key={d} className={cn('rounded-xl border border-border bg-surface p-2', d === today && 'border-accent/60')}>
+              <div
+                key={d}
+                {...dropTarget(d)}
+                className={cn('rounded-xl border border-border bg-surface p-2', d === today && 'border-accent/60', dragOver === d && 'bg-accent-soft ring-2 ring-accent')}
+              >
                 <p className="mb-2 px-1 text-xs text-muted">
                   {WEEKDAYS[weekday(d)]} <span className={cn('tabular', d === today && 'font-semibold text-accent')}>{d.slice(8)}/{d.slice(5, 7)}</span>
                 </p>
@@ -428,6 +465,7 @@ export default function CalendarPage() {
       />
       <ShiftDialog open={shiftOpen} onOpenChange={setShiftOpen} tz={tz} />
       <JobSheet jobId={jobId} timezone={tz} onClose={() => setJobId(null)} />
+      <MoveEpisodeDialog drop={drop} timezone={tz} onClose={() => setDrop(null)} />
     </div>
   );
 }

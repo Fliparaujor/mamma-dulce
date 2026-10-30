@@ -174,6 +174,9 @@ export interface CreatePostInput {
   metadata?: Record<string, unknown>;
 }
 
+/** O que o editPost precisa receber de novo: o Buffer revalida o post inteiro, mesmo só mudando o horário. */
+export type EditPostContent = Pick<CreatePostInput, 'text' | 'assets' | 'metadata'>;
+
 export class BufferApi {
   constructor(public readonly client: BufferClient) {}
 
@@ -218,11 +221,11 @@ export class BufferApi {
     return toMutationResult(data.createPost);
   }
 
-  async reschedulePost(id: string, dueAt: string): Promise<MutationResult> {
+  async reschedulePost(id: string, dueAt: string, content?: EditPostContent): Promise<MutationResult> {
     const data = await this.client.request<{ editPost: MutationPayload }>(
       'EditPost',
       M_EDIT_POST,
-      { input: { id, dueAt, mode: 'customScheduled' } },
+      { input: { id, dueAt, mode: 'customScheduled', ...content } },
       false,
     );
     return toMutationResult(data.editPost);

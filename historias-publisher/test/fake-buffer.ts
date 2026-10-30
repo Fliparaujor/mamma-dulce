@@ -241,9 +241,13 @@ export class FakeBuffer {
         return this.json({ data: { createPost: { __typename: 'PostActionSuccess', post: this.postNode(post) } } });
       }
       case 'EditPost': {
-        const input = v.input as { id: string; dueAt?: string };
+        const input = v.input as { id: string; dueAt?: string; text?: string; assets?: unknown[] };
         const p = this.posts.find((x) => x.id === input.id);
         if (!p) return this.json({ data: { editPost: { __typename: 'NotFoundError', message: 'Post not found' } } });
+        // Como o Buffer real: o editPost revalida o post inteiro.
+        if (!input.text && !input.assets?.length) {
+          return this.json({ data: { editPost: { __typename: 'InvalidInputError', message: 'Invalid post: Post must have either text or media.' } } });
+        }
         if (p.status !== 'scheduled') return this.json({ data: { editPost: { __typename: 'InvalidInputError', message: 'Post cannot be edited' } } });
         if (input.dueAt) p.dueAt = input.dueAt;
         return this.json({ data: { editPost: { __typename: 'PostActionSuccess', post: this.postNode(p) } } });

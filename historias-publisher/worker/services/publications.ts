@@ -5,7 +5,9 @@ import { BufferError } from '../buffer/client';
 import { createBufferSession } from '../buffer/factory';
 import { all, first, nowIso, placeholders, run } from '../lib/db';
 import { badRequest, conflict, HttpError, notFound } from '../lib/http';
-import { attemptStatement, type JobRow } from '../scheduler/jobs';
+import type { EditPostContent } from '../buffer/api';
+import { attemptStatement, buildCreatePostInput, JOB_FOR_PUBLISHING_SELECT, type JobForPublishing, type JobRow } from '../scheduler/jobs';
+import { mediaUrl } from './media';
 import { acquireLock, releaseLock, SCHEDULER_LOCK, SCHEDULER_LOCK_TTL_MS } from '../scheduler/lock';
 import { getSettings, type Settings } from '../settings';
 import type { Env } from '../env';
@@ -36,6 +38,20 @@ function bufferErrorToHttp(e: unknown): never {
   throw e;
 }
 
+/** Texto, vídeo e metadados de cada publicação, para reenviar no editPost. */
+async function editContents(env: Env, settings: Settings, ids: number[]): Promise<Map<number, EditPostContent>> {
+  const out = new Map<number, EditPostContent>();
+  if (ids.length === 0) return out;
+  const rows = await all<JobForPublishing>(env.DB, `${JOB_FOR_PUBLISHING_SELECT} WHERE j.id IN (${placeholders(ids.length)})`, ...ids);
+  for (const row of rows) {
+    const url = row.m_id && row.m_token && row.m_key ? mediaUrl(env, { id: row.m_id, public_token: row.m_token, r2_key: row.m_key }) : null;
+    if (!url) continue;
+    const { text, assets, metadata } = buildCreatePostInput(row, '', url, settings);
+    out.set(row.id, { text, assets, metadata });
+  }
+  return out;
+}
+
 /** Reagenda uma publicação. Se já estiver no Buffer, altera o dueAt lá antes (editPost). */
 export async function rescheduleJob(env: Env, id: number, date: string, time: string, now = new Date()): Promise<JobRow> {
   const settings = await getSettings(env);
@@ -62,7 +78,8 @@ export async function rescheduleJob(env: Env, id: number, date: string, time: st
   if (liveInBuffer) {
     const session = bufferSessionOrThrow(env, settings);
     try {
-      const result = await session.api.reschedulePost(job.buffer_post_id!, instant);
+      const content = (await editContents(env, settings, [id])).get(id);
+      const result = await session.api.reschedulePost(job.buffer_post_id!, instant, content);
       if (!result.ok) throw new HttpError(422, `O Buffer recusou o reagendamento: ${result.message}`, 'buffer_rejected');
       try {
         await env.DB.batch([
@@ -280,6 +297,11 @@ export async function pullEpisode(env: Env, episodeId: number, date: string, tim
     throw conflict('O agendador está rodando. Tente de novo em instantes.');
   }
   const session = edits > 0 ? bufferSessionOrThrow(env, settings, edits + 3) : null;
+  const contents = await editContents(
+    env,
+    settings,
+    moves.filter((m) => byId.get(m.jobId)!.state === 'scheduled_buffer').map((m) => m.jobId),
+  );
   const nowS = nowIso(now);
   const stmts: D1PreparedStatement[] = [];
   let moved = 0;
@@ -288,7 +310,7 @@ export async function pullEpisode(env: Env, episodeId: number, date: string, tim
     for (const m of moves) {
       const row = byId.get(m.jobId)!;
       if (row.state === 'scheduled_buffer') {
-        const result = await session!.api.reschedulePost(row.buffer_post_id!, m.to);
+        const result = await session!.api.reschedulePost(row.buffer_post_id!, m.to, contents.get(m.jobId));
         if (!result.ok) {
           failed = `O Buffer recusou ${m.label}: ${result.message}`;
           break;
